@@ -3,8 +3,8 @@
 #include <iostream>
 
 using namespace std;
-
-//g++ 
+//g++ -fopenmp
+#pragma omp parallel
 int main () {	
 	{
 		/*while (true){
@@ -15,11 +15,12 @@ int main () {
 			printf("hello world Thread: %d \n", threadId);
 		}*/
 
-		int threadId = omp_get_thread_num();
-			//printf("hello(%d)", threadId);
-			//printf("world(%d)\n", threadId);
-			//cout << "hello world " << threadId << "\n" << endl;
+		int threadId = omp_get_thread_num();			
 		printf("hello world Thread: %d \n", threadId);
+
+		//printf("hello(%d)", threadId);
+		//printf("world(%d)\n", threadId);
+		//cout << "hello world " << threadId << "\n" << endl;
 	}
 	return 0;
 }
@@ -28,7 +29,7 @@ void serialOperation(){
 
 }
 
-#pragma omp parallel
+
 void parallelOperation(){
 	int threadId = omp_get_thread_num();
 	//printf("hello(%d)", threadId);
