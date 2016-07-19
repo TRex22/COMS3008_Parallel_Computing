@@ -32,14 +32,16 @@ double RandomDouble (double min, double max)
 	return pmatrix;
 }*/
 int row, col = 20;
-double** mat = new double[row][col];
+double Min = 0.00;
+double Max = 100.00;
+double** mat = NULL;
 
 void row_dominant(){
 	for (int i = 0; i < row; i++)
 	{
 		for (int j = 0; j < col; j++)
 		{
-			mat[i][j] = RandomDouble(min, max);
+			mat[i][j] = RandomDouble(Min, Max);
 		}
 	}
 }
@@ -49,7 +51,7 @@ void col_dominant(){
 	{
 		for (int i = 0; i < row; i++)
 		{
-			mat[i][j] = RandomDouble(min, max);
+			mat[i][j] = RandomDouble(Min, Max);
 		}
 	}
 }
