@@ -24,7 +24,7 @@ double RandomDouble (double min, double max)
 	return random_integer;
 }
 
-void PrintMatrix (double** pmatrix)
+void PrintMatrix (double pmatrix[row][col])
 {
 	for (int i = 0; i < row; i++)
 	{
@@ -36,7 +36,7 @@ void PrintMatrix (double** pmatrix)
 	}
 }
 
-double** row_dominant(double** mat){
+void row_dominant(double (&mat)[row][col]){
 	for (int i = 0; i < row; i++)
 	{
 		for (int j = 0; j < col; j++)
@@ -44,10 +44,10 @@ double** row_dominant(double** mat){
 			mat[i][j] = RandomDouble(Min, Max);
 		}
 	}
-	return mat;
+	//return mat;
 }
 
-double** col_dominant(double** mat){
+void col_dominant(double (&mat[row][col]){
 	for (int j = 0; j < col; j++)
 	{
 		for (int i = 0; i < row; i++)
@@ -55,18 +55,18 @@ double** col_dominant(double** mat){
 			mat[i][j] = RandomDouble(Min, Max);
 		}
 	}
-	return mat;
+	//return mat;
 }
 
 int main () 
 {	
 	double start = omp_get_wtime();
 	
-	double[row][col] matrix = new double[row][col];
-	matrix = row_dominant(matrix);
+	double matrix[row][col] = new double[row][col];
+	row_dominant(matrix);
 
 	matrix = new double[row][col];
-	matrix = col_dominant(matrix);
+	col_dominant(matrix);
 
 	PrintMatrix(matrix);
 
