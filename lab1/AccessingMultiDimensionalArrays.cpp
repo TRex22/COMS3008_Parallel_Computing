@@ -18,27 +18,15 @@ double RandomDouble (double min, double max)
 	return random_integer;
 }
 
-/*double** rndMatrix(int row, int col, int min, int max){
-	double** pmatrix = new double *[row];
-	for (int i = 0; i < row; i++)
-	{
-		pmatrix[i] = new double[col];
-		for (int j = 0; j < col; j++)
-		{
-			pmatrix[i][j] = RandomDouble(min, max);
-		}
-	}
-
-	return pmatrix;
-}*/
 int row, col = 20;
 double Min = 0.00;
 double Max = 100.00;
-double** mat = NULL;
+double** mat = malloc(row * sizeof(int *));
 
 void row_dominant(){
 	for (int i = 0; i < row; i++)
 	{
+		mat[i] = malloc(col * sizeof(int));
 		for (int j = 0; j < col; j++)
 		{
 			mat[i][j] = RandomDouble(Min, Max);
@@ -56,12 +44,27 @@ void col_dominant(){
 	}
 }
 
-int main () {	
+void PrintMatrix (double** pmatrix)
+{
+	for (int i = 0; i < row; i++)
+	{
+		for (int j = 0; j < col; j++)
+		{
+			std::cout << pmatrix[i][j] << " ";
+		}
+		std::cout << std::endl;
+	}
+}
+
+int main () 
+{	
 	{
 		double start = omp_get_wtime();
 
 		row_dominant();
 		col_dominant();
+
+		PrintMatrix(mat);
 
 		double end = omp_get_wtime(); 
 		double diff = end - start;
