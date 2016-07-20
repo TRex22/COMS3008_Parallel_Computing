@@ -7,6 +7,12 @@
 
 using namespace std;
 
+//constants
+const int row = 20;
+const int col = 20;
+const double Min = 0.00;
+const double Max = 100.00;
+
 //http://stackoverflow.com/questions/5008804/generating-random-integer-from-a-range
 //taken from a library Im writing
 double RandomDouble (double min, double max)
@@ -16,32 +22,6 @@ double RandomDouble (double min, double max)
 	uniform_real_distribution<double> uni(min, max); // guaranteed unbiased
 	double random_integer = uni(rng);
 	return random_integer;
-}
-
-int row, col = 20;
-double Min = 0.00;
-double Max = 100.00;
-double** mat = malloc(row * sizeof(int *));
-
-void row_dominant(){
-	for (int i = 0; i < row; i++)
-	{
-		mat[i] = malloc(col * sizeof(int));
-		for (int j = 0; j < col; j++)
-		{
-			mat[i][j] = RandomDouble(Min, Max);
-		}
-	}
-}
-
-void col_dominant(){
-	for (int j = 0; j < col; j++)
-	{
-		for (int i = 0; i < row; i++)
-		{
-			mat[i][j] = RandomDouble(Min, Max);
-		}
-	}
 }
 
 void PrintMatrix (double** pmatrix)
@@ -56,19 +36,43 @@ void PrintMatrix (double** pmatrix)
 	}
 }
 
+double** row_dominant(double** mat){
+	for (int i = 0; i < row; i++)
+	{
+		for (int j = 0; j < col; j++)
+		{
+			mat[i][j] = RandomDouble(Min, Max);
+		}
+	}
+	return mat;
+}
+
+double** col_dominant(double** mat){
+	for (int j = 0; j < col; j++)
+	{
+		for (int i = 0; i < row; i++)
+		{
+			mat[i][j] = RandomDouble(Min, Max);
+		}
+	}
+	return mat;
+}
+
 int main () 
 {	
-	{
-		double start = omp_get_wtime();
+	double start = omp_get_wtime();
+	
+	double[row][col] matrix = new double[row][col];
+	matrix = row_dominant(matrix);
 
-		row_dominant();
-		col_dominant();
+	matrix = new double[row][col];
+	matrix = col_dominant(matrix);
 
-		PrintMatrix(mat);
+	PrintMatrix(matrix);
 
-		double end = omp_get_wtime(); 
-		double diff = end - start;
-		cout << diff << endl;
-	}
+	double end = omp_get_wtime(); 
+	double diff = end - start;
+	cout << diff << endl;
+	
 	return 0;
 }
