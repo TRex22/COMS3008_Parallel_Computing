@@ -5,3 +5,16 @@ Notes
   double** matrix = new double[row][col];
 
   5000X5000 row faster by 1.1 seconds
+
+
+
+  @book{book:320490,
+   title =     {An introduction to parallel and vector scientific computing},
+   author =    {Ronald W. Shonkwiler, Lew Lefton},
+   publisher = {Cambridge University Press},
+   isbn =      {052186478X,9780521864787,0521683378,9780521683371},
+   year =      {2006},
+   series =    {Cambridge Texts in Applied Mathematics},
+   edition =   {1},
+   volume =    {},
+   url =       {http://gen.lib.rus.ec/book/index.php?md5=E20A221C5FE5B524D06EDCE3CF80E8AD}}
