@@ -7,10 +7,10 @@
 
 using namespace std;
 
-double *vector1 = {2.00, 4.00};
-double *vector2 = {4.00, 2.00};
+const int row = 4;
 
-
+double *vector1 = new double[row];
+double *vector2 = new double[row];
 
 double DotProduct(double* vector1, double* vector2)
 {

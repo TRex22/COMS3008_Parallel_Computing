@@ -5,4 +5,3 @@ Notes
   double** matrix = new double[row][col];
 
   5000X5000 row faster by 1.1 seconds
-  

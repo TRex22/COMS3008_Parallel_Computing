@@ -32,6 +32,7 @@ void FileWriter(char* output)
 
 int main () {	
 	{
+		omp_set_num_threads(100);
 		double start = omp_get_wtime();
 
 		serialOperation();
