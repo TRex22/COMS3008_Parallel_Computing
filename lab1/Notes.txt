@@ -4,4 +4,5 @@ Notes
  error: cannot convert ‘double (*)[20]’ to ‘double**’ in initialization
   double** matrix = new double[row][col];
 
+  5000X5000 row faster by 1.1 seconds
   
