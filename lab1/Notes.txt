@@ -16,5 +16,8 @@ Notes
    year =      {2006},
    series =    {Cambridge Texts in Applied Mathematics},
    edition =   {1},
-   volume =    {},
+   volume =    {}
+
+
+   ,
    url =       {http://gen.lib.rus.ec/book/index.php?md5=E20A221C5FE5B524D06EDCE3CF80E8AD}}

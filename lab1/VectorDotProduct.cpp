@@ -17,6 +17,7 @@ const int row = 2000000;
 const double Min = 0.00;
 const double Max = 100.00;
 const bool PrintArray = false;
+const int experimentNumber = 10000;
 
 void PrintMatrix (double *vector)
 {
@@ -143,7 +144,7 @@ int main () {
 		srand(time(NULL));
 		seqential_dot_product();
 		parallel_dot_product();
-		parallel_dot_product_rnd();		
+		parallel_dot_product_rnd();
 	}
 	return 0;
 }

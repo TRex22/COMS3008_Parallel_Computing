@@ -7,6 +7,8 @@ Averages?
 plot*/
 using namespace std;
 
+const int experimentNumber = 10000;
+
 void serialOperation(){
 	int threadId = omp_get_thread_num();			
 	printf("hello world Thread: %d \n", threadId);
@@ -22,10 +24,10 @@ void parallelOperation(){
 	}
 }
 
-void FileWriter(char* output)
+void FileWriter(char* output, char* file)
 {
 	ofstream myfile;
-  	myfile.open ("results.txt");
+  	myfile.open (file, std::ios_base::app);
 		myfile << output << "\n";
   	myfile.close();
 }
