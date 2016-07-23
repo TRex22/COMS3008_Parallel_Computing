@@ -20,9 +20,10 @@ int col = 100;
 const double Min = 0.00;
 const double Max = 100.00;
 const bool PrintArray = false;
-const int experimentNumber = 10000;
-const int averageNumber = 100;
-char newline[4] = "\n";
+const int experimentNumber = 1000; //number of times to increment a dimension
+const int averageNumber = 50; //number of times to repeat a dimension
+const int incrementNumber = 100; //increment size of a dimension
+char newline[1] = "";
 
 //file outputs
 const char* row_static_file = "results/Example1_row.txt";
@@ -172,12 +173,16 @@ int main ()
 	{
 		sprintf(dimensions, "%d X %d: t:", row, col);
 
+		cout << "Test Array: " << row << " X " << col << endl;
+		cout << "\npointer_array: " << endl;
+
+		//to make this faster without affecting speeds?
+//		omp_set_num_threads(2);
+//		#pragma omp parallel for
 		for (int j = 0; j < averageNumber; j++)
 		{
 			double start = omp_get_wtime();
 	
-			cout << "Test Array: " << row << " X " << col << endl;
-			cout << "\npointer_array: " << endl;
 			pointer_array(dimensions);
 
 			double end = omp_get_wtime(); 
@@ -187,8 +192,8 @@ int main ()
 		FileWriter(newline, row_static_file);
 		FileWriter(newline, col_static_file);
 
-		row = 110 + (i*10);
-		col = 110 + (i*10);
+		row = 100 + incrementNumber + (i*incrementNumber);
+		col = 100 + incrementNumber + (i*incrementNumber);
 	}
 
 	double end_main = omp_get_wtime(); 
