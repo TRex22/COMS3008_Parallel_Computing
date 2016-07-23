@@ -267,10 +267,7 @@ int main ()
 	FileWriter(newline, exp4File);
 
 	char lineout[255] = "";
-	sprintf (lineout, "main execution time: %f", diff_main);
-	
-	char lineout[255] = "";
-	sprintf (lineout, "Example 3 Main Execution Time: %f", diff);
+	sprintf (lineout, "Example 3 Main Execution Time: %f", diff_main);
 	FileWriter(lineout, execution_times_file);
 
 	return 0;

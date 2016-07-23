@@ -128,7 +128,7 @@ void pointer_array(char* dimensions)
 	//write to file
 	//cout << "row_dominant execution time: " << diff_row << endl;
 	char r_out[255] = "";
-	sprintf(r_out, "%s %f", dimensions, diff_row);
+	sprintf(r_out, "%s,%f", dimensions, diff_row);
 	FileWriter(r_out, row_static_file);
 
 	//col
