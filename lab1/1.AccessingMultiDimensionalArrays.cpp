@@ -1,6 +1,6 @@
 /*
 Jason Chalom 711985 2016
-Use: g++ -fopenmp AccessingMultiDimensionalArrays.cpp -o example1.out
+Use: g++ -fopenmp 1.AccessingMultiDimensionalArrays.cpp -o example1.out
 */
 
 #include "stdio.h"

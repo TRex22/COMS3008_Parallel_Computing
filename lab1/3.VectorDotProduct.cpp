@@ -1,6 +1,6 @@
 /*
 Jason Chalom 711985 2016
-Use: g++ -fopenmp AccessingMultiDimensionalArrays.cpp -o example1.out
+Use: g++ -fopenmp 3.VectorDotProduct.cpp -o example3.out
 */
 
 #include "stdio.h"

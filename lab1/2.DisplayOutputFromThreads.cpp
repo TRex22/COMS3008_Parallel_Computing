@@ -1,3 +1,8 @@
+/*
+Jason Chalom 711985 2016
+Use: g++ -fopenmp 2.DisplayOutputFromThreads.cpp -o example2.out
+*/
+
 #include "stdio.h"
 #include "omp.h"
 #include <iostream>
