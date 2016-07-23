@@ -25,10 +25,11 @@ const int experimentNumber = 1000; //number of iterations
 char newline[1] = "";
 
 //file outputs
-const char* exp1File = "results/Example3_1_VaryNoThreads_FixedArraySize.txt";
-const char* exp2File = "results/Example3_2_VaryArraySize_FixedThreadCount4.txt";
-const char* exp3File = "results/Example3_3_RND_Parallel_VaryThreads.txt";
-const char* exp4File = "results/Example3_4_RND_Parallel_VaryArraySize.txt"; 
+const char* exp1File = "results/Example3_1_VaryNoThreads_FixedArraySize.csv";
+const char* exp2File = "results/Example3_2_VaryArraySize_FixedThreadCount4.csv";
+const char* exp3File = "results/Example3_3_RND_Parallel_VaryThreads.csv";
+const char* exp4File = "results/Example3_4_RND_Parallel_VaryArraySize.csv"; 
+const char* execution_times_file = "results/ExecutionTimes.txt";
 
 void PrintMatrix (double *vector)
 {
@@ -179,7 +180,7 @@ void VaryNoThreads()
 		double executionTime = parallel_dot_product();
 
 		char lineout[25] = "";
-		sprintf(lineout, "%d %f", (i+1), executionTime);
+		sprintf(lineout, "%d,%f", (i+1), executionTime);
 		FileWriter(lineout, exp1File);
 	}
 }
@@ -196,7 +197,7 @@ void VarySizeOfVector()
 		double executionTime = parallel_dot_product();
 
 		char lineout[25] = "";
-		sprintf(lineout, "%d %f", (i+1), executionTime);
+		sprintf(lineout, "%d,%f", (i+1), executionTime);
 		FileWriter(lineout, exp2File);
 	}
 }
@@ -214,7 +215,7 @@ void ParallelizeRNDFixRow()
 		double executionTime = parallel_dot_product_rnd();
 
 		char lineout[25] = "";
-		sprintf(lineout, "%d %f", (i+1), executionTime);
+		sprintf(lineout, "%d,%f", (i+1), executionTime);
 		FileWriter(lineout, exp3File);
 	}
 }
@@ -231,7 +232,7 @@ void ParallelizeRNDFixThreads()
 		double executionTime = parallel_dot_product_rnd();
 
 		char lineout[25] = "";
-		sprintf(lineout, "%d %f", (i+1), executionTime);
+		sprintf(lineout, "%d,%f", (i+1), executionTime);
 		FileWriter(lineout, exp4File);
 	}
 }
@@ -268,10 +269,9 @@ int main ()
 	char lineout[255] = "";
 	sprintf (lineout, "main execution time: %f", diff_main);
 	
-	FileWriter(lineout, exp1File);
-	FileWriter(lineout, exp2File);
-	FileWriter(lineout, exp3File);
-	FileWriter(lineout, exp4File);
+	char lineout[255] = "";
+	sprintf (lineout, "Example 3 Main Execution Time: %f", diff);
+	FileWriter(lineout, execution_times_file);
 
 	return 0;
 }

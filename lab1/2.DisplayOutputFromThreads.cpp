@@ -14,7 +14,8 @@ const int startNumberOfThreads = 1;
 char newline[1] = "";
 
 //file output
-const char* file = "results/Example2.txt";
+const char* file = "results/Example2.csv";
+const char* execution_times_file = "results/ExecutionTimes.txt";
 
 void FileWriter(char* output, const char* file)
 {
@@ -61,8 +62,8 @@ int main () {
 		cout << "main execution time: " << diff << endl;
 
 		char lineout[255] = "";
-		sprintf (lineout, "main execution time: %f", diff);
-		FileWriter(lineout, file);
+		sprintf (lineout, "Example 2 Main Execution Time: %f", diff);
+		FileWriter(lineout, execution_times_file);
 	}
 	return 0;
 }

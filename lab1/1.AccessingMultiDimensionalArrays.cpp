@@ -29,8 +29,9 @@ const int maxDimension = 5000; //max square dimension to interate towards.
 char newline[1] = "";
 
 //file outputs
-const char* row_static_file = "results/Example1_row.txt";
-const char* col_static_file = "results/Example1_col.txt";
+const char* row_static_file = "results/Example1_row.csv";
+const char* col_static_file = "results/Example1_col.csv";
+const char* execution_times_file = "results/ExecutionTimes.txt";
 
 template <size_t r, size_t c>
 void PrintMatrix (double (&pmatrix)[r][c])
@@ -138,7 +139,7 @@ void pointer_array(char* dimensions)
 	//write to file
 	//cout << "col_dominant execution time: " << diff_col << endl;
 	char c_out[255] = "";
-	sprintf(c_out, "%s %f", dimensions, diff_col);
+	sprintf(c_out, "%s,%f", dimensions, diff_col);
 	FileWriter(c_out, col_static_file);
 
 	if(PrintArray)
@@ -211,9 +212,8 @@ int main ()
 	FileWriter(newline, col_static_file);
 
 	char lineout[255] = "";
-	sprintf (lineout, "main execution time: %f", diff_main);
-	FileWriter(lineout, row_static_file);
-	FileWriter(lineout, col_static_file);
+	sprintf (lineout, "Example 1 Main Execution Time: %f", diff_main);
+	FileWriter(lineout, execution_times_file);
 	
 	return 0;
 }
