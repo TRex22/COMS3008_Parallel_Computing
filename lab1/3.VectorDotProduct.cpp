@@ -237,13 +237,28 @@ void ParallelizeRNDFixThreads()
 	}
 }
 
+void initFileOuts()
+{
+	//TODO JMC: Do I need this?
+	char header1[20] = "ThreadCount,Time";
+	char header2[20] = "Dimension,Time";
+
+	FileWriter(header1, exp1File);
+	FileWriter(header2, exp2File);
+	FileWriter(header1, exp3File);
+	FileWriter(header2, exp4File);
+
+}
+
 int main () 
 {	
 	//seed rnd
 	srand(time(NULL));
 
-	double start_main = omp_get_wtime();
 	cout << "Running Experiment 3 ..." << endl;
+	initFileOuts();
+
+	double start_main = omp_get_wtime();
 
 	//standard tests
 	/*

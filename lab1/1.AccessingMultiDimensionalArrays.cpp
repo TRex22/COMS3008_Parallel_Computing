@@ -127,7 +127,7 @@ void pointer_array(char* dimensions)
 	double diff_row = end_row - start_row;
 	//write to file
 	//cout << "row_dominant execution time: " << diff_row << endl;
-	char r_out[255] = "";
+	char r_out[60] = "";
 	sprintf(r_out, "%s,%f", dimensions, diff_row);
 	FileWriter(r_out, row_static_file);
 
@@ -138,7 +138,7 @@ void pointer_array(char* dimensions)
 	double diff_col = end_col - start_col;
 	//write to file
 	//cout << "col_dominant execution time: " << diff_col << endl;
-	char c_out[255] = "";
+	char c_out[60] = "";
 	sprintf(c_out, "%s,%f", dimensions, diff_col);
 	FileWriter(c_out, col_static_file);
 
@@ -158,10 +158,9 @@ void pointer_array(char* dimensions)
 void initFileOuts()
 {
 	//TODO JMC: Do I need this?
-	/*char row_s[255] = "row_static_file";
-	FileWriter(row_s, row_static_file);
-	char col_s[255] = "col_static_file";
-	FileWriter(col_s, col_static_file);*/
+	char header[20] = "Dimension,Time";
+	FileWriter(header, row_static_file);
+	FileWriter(header, col_static_file);
 }
 
 int main () 
@@ -172,7 +171,7 @@ int main ()
 
 	double start_main = omp_get_wtime();
 
-	char dimensions[255] = "";	
+	char dimensions[50] = "";	
 	
 	cout << "Running Experiment 1 ..." << endl;
 	for (int i = 0; row <= maxDimension; i++)
@@ -211,7 +210,7 @@ int main ()
 	FileWriter(newline, row_static_file);
 	FileWriter(newline, col_static_file);
 
-	char lineout[255] = "";
+	char lineout[60] = "";
 	sprintf (lineout, "Example 1 Main Execution Time: %f", diff_main);
 	FileWriter(lineout, execution_times_file);
 	

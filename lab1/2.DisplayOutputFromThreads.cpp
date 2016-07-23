@@ -43,10 +43,17 @@ void parallelOperation(){
 	}
 }
 
+void initFileOuts()
+{
+	//TODO JMC: Do I need this?
+	char header[20] = "Thread";
+	FileWriter(header, file);
+}
+
 int main () {	
 	{
 		cout << "Running Experiment 2 ..." << endl;
-
+		initFileOuts();
 		double start = omp_get_wtime();
 
 		for (int i = 0; i < experimentNumber; i++)
