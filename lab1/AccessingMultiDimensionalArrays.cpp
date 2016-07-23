@@ -23,6 +23,7 @@ const bool PrintArray = false;
 const int experimentNumber = 1000; //number of times to increment a dimension
 const int averageNumber = 50; //number of times to repeat a dimension
 const int incrementNumber = 100; //increment size of a dimension
+const int maxDimension = 5000; //max square dimension to interate towards.
 char newline[1] = "";
 
 //file outputs
@@ -122,7 +123,7 @@ void pointer_array(char* dimensions)
 	double end_row = omp_get_wtime(); 
 	double diff_row = end_row - start_row;
 	//write to file
-	cout << "row_dominant execution time: " << diff_row << endl;
+	//cout << "row_dominant execution time: " << diff_row << endl;
 	char r_out[255] = "";
 	sprintf(r_out, "%s %f", dimensions, diff_row);
 	FileWriter(r_out, row_static_file);
@@ -133,7 +134,7 @@ void pointer_array(char* dimensions)
 	double end_col = omp_get_wtime(); 
 	double diff_col = end_col - start_col;
 	//write to file
-	cout << "col_dominant execution time: " << diff_col << endl;
+	//cout << "col_dominant execution time: " << diff_col << endl;
 	char c_out[255] = "";
 	sprintf(c_out, "%s %f", dimensions, diff_col);
 	FileWriter(c_out, col_static_file);
@@ -168,13 +169,14 @@ int main ()
 	double start_main = omp_get_wtime();
 
 	char dimensions[255] = "";	
-
-	for (int i = 0; i < experimentNumber; i++)
+	
+	cout << "Running Experiment ..." << endl;
+	for (int i = 0; row <= maxDimension; i++)
 	{
-		sprintf(dimensions, "%d X %d: t:", row, col);
+		sprintf(dimensions, "%d: t:", row);
 
-		cout << "Test Array: " << row << " X " << col << endl;
-		cout << "\npointer_array: " << endl;
+		//cout << "Test Array: " << row << " X " << col << endl;
+		//cout << "\npointer_array: " << endl;
 
 		for (int j = 0; j < averageNumber; j++)
 		{
@@ -186,6 +188,8 @@ int main ()
 			double diff = end - start;
 		}
 		
+		if (i == ) //hack incase condition is never met
+
 		FileWriter(newline, row_static_file);
 		FileWriter(newline, col_static_file);
 
