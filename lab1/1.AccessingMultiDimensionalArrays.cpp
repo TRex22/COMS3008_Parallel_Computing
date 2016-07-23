@@ -156,10 +156,11 @@ void pointer_array(char* dimensions)
 
 void initFileOuts()
 {
-	char row_s[255] = "row_static_file";
+	//TODO JMC: Do I need this?
+	/*char row_s[255] = "row_static_file";
 	FileWriter(row_s, row_static_file);
 	char col_s[255] = "col_static_file";
-	FileWriter(col_s, col_static_file);
+	FileWriter(col_s, col_static_file);*/
 }
 
 int main () 
@@ -175,7 +176,7 @@ int main ()
 	cout << "Running Experiment 1 ..." << endl;
 	for (int i = 0; row <= maxDimension; i++)
 	{
-		sprintf(dimensions, "%d: t:", row);
+		sprintf(dimensions, "%d", row);
 
 		//cout << "Test Array: " << row << " X " << col << endl;
 		//cout << "\npointer_array: " << endl;
@@ -206,8 +207,6 @@ int main ()
 	double diff_main = end_main - start_main;
 	cout << "main execution time: " << diff_main << endl;
 
-	FileWriter(newline, row_static_file);
-	FileWriter(newline, col_static_file);
 	FileWriter(newline, row_static_file);
 	FileWriter(newline, col_static_file);
 
