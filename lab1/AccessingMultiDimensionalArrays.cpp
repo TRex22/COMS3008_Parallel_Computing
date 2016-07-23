@@ -28,7 +28,8 @@ const char* col_dynamic_file = "results/Example1_col_dynamic.txt";
 const char* row_static_file = "results/Example1_row_static.txt";
 const char* col_static_file = "results/Example1_col_static.txt";
 
-void PrintMatrix (double pmatrix[row][col])
+template <size_t r, size_t c>
+void PrintMatrix (double (&pmatrix)[r][c])
 {
 	for (int i = 0; i < row; i++)
 	{
@@ -109,7 +110,7 @@ void FileWriter(char* output, const char* file)
 //using a matrix dynamically allocated
 void dynamic_array(char* dimensions)
 {
-	//it is statically allocated a beginning of program and destroyed at end of program
+	/*//it is statically allocated a beginning of program and destroyed at end of program
 	double matrix[row][col];
 
 	//row
@@ -137,7 +138,7 @@ void dynamic_array(char* dimensions)
 	if(PrintArray)
 	{
 		PrintMatrix(matrix);
-	}	
+	}	*/
 }
 
 void pointer_array(char* dimensions)
@@ -174,6 +175,7 @@ void pointer_array(char* dimensions)
 	{
 		PrintMatrix(matrix);
 	}	
+	free(matrix);
 }
 
 void initFileOuts()
