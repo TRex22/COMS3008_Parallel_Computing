@@ -1,30 +1,22 @@
 #include "stdio.h"
 #include "omp.h"
 #include <iostream>
+#include <cmath>
+#include <stdlib.h>     
+#include <time.h>       
 #include <fstream>
-/*Get values 
-Averages?
-plot*/
+
 using namespace std;
 
-const int experimentNumber = 10000;
+const int experimentNumber = 100; //number of times to increment a dimension
+const int incrementNumber = 5; //increment size of a dimension
+const int startNumberOfThreads = 1;
+char newline[1] = "";
 
-void serialOperation(){
-	int threadId = omp_get_thread_num();			
-	printf("hello world Thread: %d \n", threadId);
-}
+//file output
+const char* file = "results/Example2.txt";
 
-
-void parallelOperation(){
-
-	#pragma omp parallel		
-	{
-		int threadId = omp_get_thread_num();			
-		printf("hello world Thread: %d \n", threadId);
-	}
-}
-
-void FileWriter(char* output, char* file)
+void FileWriter(char* output, const char* file)
 {
 	ofstream myfile;
   	myfile.open (file, std::ios_base::app);
@@ -32,17 +24,45 @@ void FileWriter(char* output, char* file)
   	myfile.close();
 }
 
+void serialOperation(){
+	int threadId = omp_get_thread_num();			
+	printf("hello world Thread: %d \n", threadId);
+}
+
+void parallelOperation(){
+
+	#pragma omp parallel		
+	{
+		int threadId = omp_get_thread_num();			
+		//printf("std out using thread: %d \n", threadId);
+
+		char lineout[255] = "";
+		sprintf(lineout, "%d", threadId);
+		FileWriter(lineout, file);
+	}
+}
+
 int main () {	
 	{
-		omp_set_num_threads(100);
+		cout << "Running Experiment 2 ..." << endl;
+
 		double start = omp_get_wtime();
 
-		serialOperation();
-		parallelOperation();
-		
+		for (int i = 0; i < experimentNumber; i++)
+		{
+			omp_set_num_threads(startNumberOfThreads + (incrementNumber * i));
+			//serialOperation(); //just a test, it is always main thread (0)
+			parallelOperation();
+			FileWriter(newline, file);
+		}
+
 		double end = omp_get_wtime(); 
 		double diff = end - start;
-		cout << diff << endl;
+		cout << "main execution time: " << diff << endl;
+
+		char lineout[255] = "";
+		sprintf (lineout, "main execution time: %f", diff);
+		FileWriter(lineout, file);
 	}
 	return 0;
 }

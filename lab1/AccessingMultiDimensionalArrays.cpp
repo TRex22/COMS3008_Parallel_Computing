@@ -172,7 +172,7 @@ int main ()
 
 	char dimensions[255] = "";	
 	
-	cout << "Running Experiment ..." << endl;
+	cout << "Running Experiment 1 ..." << endl;
 	for (int i = 0; row <= maxDimension; i++)
 	{
 		sprintf(dimensions, "%d: t:", row);
@@ -205,6 +205,16 @@ int main ()
 	double end_main = omp_get_wtime(); 
 	double diff_main = end_main - start_main;
 	cout << "main execution time: " << diff_main << endl;
+
+	FileWriter(newline, row_static_file);
+	FileWriter(newline, col_static_file);
+	FileWriter(newline, row_static_file);
+	FileWriter(newline, col_static_file);
+
+	char lineout[255] = "";
+	sprintf (lineout, "main execution time: %f", diff_main);
+	FileWriter(lineout, row_static_file);
+	FileWriter(lineout, col_static_file);
 	
 	return 0;
 }
