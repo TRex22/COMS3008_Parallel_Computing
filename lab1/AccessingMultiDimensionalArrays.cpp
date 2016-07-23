@@ -176,9 +176,6 @@ int main ()
 		cout << "Test Array: " << row << " X " << col << endl;
 		cout << "\npointer_array: " << endl;
 
-		//to make this faster without affecting speeds?
-//		omp_set_num_threads(2);
-//		#pragma omp parallel for
 		for (int j = 0; j < averageNumber; j++)
 		{
 			double start = omp_get_wtime();
