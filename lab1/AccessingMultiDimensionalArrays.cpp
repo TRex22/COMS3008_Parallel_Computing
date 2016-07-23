@@ -20,10 +20,12 @@ int col = 100;
 const double Min = 0.00;
 const double Max = 100.00;
 const bool PrintArray = false;
+
 const int experimentNumber = 1000; //number of times to increment a dimension
 const int averageNumber = 50; //number of times to repeat a dimension
 const int incrementNumber = 100; //increment size of a dimension
 const int maxDimension = 5000; //max square dimension to interate towards.
+
 char newline[1] = "";
 
 //file outputs
@@ -188,8 +190,11 @@ int main ()
 			double diff = end - start;
 		}
 		
-		if (i == ) //hack incase condition is never met
-
+		if (i == experimentNumber) //hack incase condition is never met
+		{
+			break;
+		}
+		
 		FileWriter(newline, row_static_file);
 		FileWriter(newline, col_static_file);
 
