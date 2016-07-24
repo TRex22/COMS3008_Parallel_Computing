@@ -64,7 +64,7 @@ double CalcAverage(double** values, int block_count)
 	return (sum / block_count);
 }
 
-double FindMin(double** values, int block_count)
+double FindMax(double** values, int block_count)
 {
 	double max = values[0][1];
 
@@ -81,7 +81,7 @@ double FindMin(double** values, int block_count)
 	return max;
 }
 
-double FindMax(double** values, int block_count)
+double FindMin(double** values, int block_count)
 {
 	double min = values[0][1];
 
