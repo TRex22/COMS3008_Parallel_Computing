@@ -50,7 +50,6 @@ void parallelOperation(){
 
 void initFileOuts()
 {
-	//TODO JMC: Do I need this?
 	char header[20] = "Thread";
 	FileWriter(header, file);
 }

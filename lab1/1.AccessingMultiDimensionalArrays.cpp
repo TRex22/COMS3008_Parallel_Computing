@@ -147,7 +147,6 @@ void pointer_array(char* dimensions)
 		PrintMatrix(matrix);
 	}
 
-
 	for (int i = 0; i < row; i++)
 	{
 	    delete [] matrix[i];
@@ -157,7 +156,6 @@ void pointer_array(char* dimensions)
 
 void initFileOuts()
 {
-	//TODO JMC: Do I need this?
 	char header[20] = "Dimension,Time";
 	FileWriter(header, row_static_file);
 	FileWriter(header, col_static_file);

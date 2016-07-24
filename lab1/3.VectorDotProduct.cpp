@@ -239,7 +239,6 @@ void ParallelizeRNDFixThreads()
 
 void initFileOuts()
 {
-	//TODO JMC: Do I need this?
 	char header1[20] = "ThreadCount,Time";
 	char header2[20] = "Dimension,Time";
 
