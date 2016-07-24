@@ -19,7 +19,8 @@ const int startNumberOfThreads = 1;
 char newline[1] = "";
 
 //file output
-const char* file = "results/Example2.csv";
+const char* file = "results/Example2_Increment_ThreadCount.csv";
+const char* file2 = "results/Example2_Fixed_At_10_Threads.csv";
 const char* execution_times_file = "results/ExecutionTimes.txt";
 
 void FileWriter(char* output, const char* file)
@@ -52,6 +53,29 @@ void initFileOuts()
 {
 	char header[20] = "Thread";
 	FileWriter(header, file);
+	FileWriter(header, file2);
+}
+
+void IncreasingNoThreads()
+{
+	for (int i = 0; i < experimentNumber; i++)
+	{
+		omp_set_num_threads(startNumberOfThreads + (incrementNumber * i));
+		//serialOperation(); //just a test, it is always main thread (0)
+		parallelOperation();
+		FileWriter(newline, file);
+	}
+}
+
+void FixedAt10Threads()
+{
+	for (int i = 0; i < experimentNumber; i++)
+	{
+		omp_set_num_threads(10);
+		//serialOperation(); //just a test, it is always main thread (0)
+		parallelOperation();
+		FileWriter(newline, file);
+	}
 }
 
 int main () {	
@@ -60,13 +84,8 @@ int main () {
 		initFileOuts();
 		double start = omp_get_wtime();
 
-		for (int i = 0; i < experimentNumber; i++)
-		{
-			omp_set_num_threads(startNumberOfThreads + (incrementNumber * i));
-			//serialOperation(); //just a test, it is always main thread (0)
-			parallelOperation();
-			FileWriter(newline, file);
-		}
+		IncreasingNoThreads();
+		FixedAt10Threads();		
 
 		double end = omp_get_wtime(); 
 		double diff = end - start;

@@ -21,6 +21,7 @@ const double Min = 0.00;
 const double Max = 100.00;
 /*const bool PrintArray = true;*/
 const int experimentNumber = 1000; //number of iterations
+const int averageNumber = 50; //number of times to repeat a dimension
 
 char newline[1] = "";
 
@@ -175,13 +176,17 @@ void VaryNoThreads()
 	for (int i = 0; i < experimentNumber; i++)
 	{
 		noThreads = i + 1;
-		omp_set_num_threads(noThreads);
+		for (int j = 0; j < averageNumber; j++)
+		{
+			omp_set_num_threads(noThreads);
 
-		double executionTime = parallel_dot_product();
+			double executionTime = parallel_dot_product();
 
-		char lineout[25] = "";
-		sprintf(lineout, "%d,%f", (i+1), executionTime);
-		FileWriter(lineout, exp1File);
+			char lineout[25] = "";
+			sprintf(lineout, "%d,%f", (i+1), executionTime);
+			FileWriter(lineout, exp1File);
+		}
+		FileWriter(newline, exp1File);	
 	}
 }
 
@@ -194,11 +199,15 @@ void VarySizeOfVector()
 	for (int i = 0; i < experimentNumber; i++)
 	{
 		row = i + 1;
-		double executionTime = parallel_dot_product();
+		for (int j = 0; j < averageNumber; j++)
+		{
+			double executionTime = parallel_dot_product();
 
-		char lineout[25] = "";
-		sprintf(lineout, "%d,%f", (i+1), executionTime);
-		FileWriter(lineout, exp2File);
+			char lineout[25] = "";
+			sprintf(lineout, "%d,%f", (i+1), executionTime);
+			FileWriter(lineout, exp2File);
+		}
+		FileWriter(newline, exp1File);
 	}
 }
 
@@ -210,13 +219,17 @@ void ParallelizeRNDFixRow()
 	for (int i = 0; i < experimentNumber; i++)
 	{
 		noThreads = i + 1;
-		omp_set_num_threads(noThreads);
+		for (int j = 0; j < averageNumber; j++)
+		{
+			omp_set_num_threads(noThreads);
 
-		double executionTime = parallel_dot_product_rnd();
+			double executionTime = parallel_dot_product_rnd();
 
-		char lineout[25] = "";
-		sprintf(lineout, "%d,%f", (i+1), executionTime);
-		FileWriter(lineout, exp3File);
+			char lineout[25] = "";
+			sprintf(lineout, "%d,%f", (i+1), executionTime);
+			FileWriter(lineout, exp3File);
+		}
+		FileWriter(newline, exp1File);
 	}
 }
 
@@ -229,11 +242,15 @@ void ParallelizeRNDFixThreads()
 	for (int i = 0; i < experimentNumber; i++)
 	{
 		row = i + 1;
-		double executionTime = parallel_dot_product_rnd();
+		for (int j = 0; j < averageNumber; j++)
+		{
+			double executionTime = parallel_dot_product_rnd();
 
-		char lineout[25] = "";
-		sprintf(lineout, "%d,%f", (i+1), executionTime);
-		FileWriter(lineout, exp4File);
+			char lineout[25] = "";
+			sprintf(lineout, "%d,%f", (i+1), executionTime);
+			FileWriter(lineout, exp4File);
+		}
+		FileWriter(newline, exp1File);
 	}
 }
 
