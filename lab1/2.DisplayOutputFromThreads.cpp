@@ -36,7 +36,7 @@ void serialOperation(){
 	printf("hello world Thread: %d \n", threadId);
 }
 
-void parallelOperation(){
+void parallelOperation(const char* file_out){
 
 	#pragma omp parallel		
 	{
@@ -45,7 +45,7 @@ void parallelOperation(){
 
 		char lineout[255] = "";
 		sprintf(lineout, "%d", threadId);
-		FileWriter(lineout, file);
+		FileWriter(lineout, file_out);
 	}
 }
 
@@ -62,7 +62,7 @@ void IncreasingNoThreads()
 	{
 		omp_set_num_threads(startNumberOfThreads + (incrementNumber * i));
 		//serialOperation(); //just a test, it is always main thread (0)
-		parallelOperation();
+		parallelOperation(file);
 		FileWriter(newline, file);
 	}
 }
@@ -73,7 +73,7 @@ void FixedAt10Threads()
 	{
 		omp_set_num_threads(10);
 		//serialOperation(); //just a test, it is always main thread (0)
-		parallelOperation();
+		parallelOperation(file2);
 		FileWriter(newline, file2);
 	}
 }
