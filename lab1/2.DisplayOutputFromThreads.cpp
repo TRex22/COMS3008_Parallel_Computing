@@ -74,7 +74,7 @@ void FixedAt10Threads()
 		omp_set_num_threads(10);
 		//serialOperation(); //just a test, it is always main thread (0)
 		parallelOperation();
-		FileWriter(newline, file);
+		FileWriter(newline, file2);
 	}
 }
 
