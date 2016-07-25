@@ -21,3 +21,17 @@ Notes
 
    ,
    url =       {http://gen.lib.rus.ec/book/index.php?md5=E20A221C5FE5B524D06EDCE3CF80E8AD}}
+
+
+       //only 10 datapoints
+        /*  0 - Black
+        *   1 - Blue
+        *   2 - Grey
+        *   3 - Red
+        *   4 - Orange
+        *   5 - White
+        *   6 - Yellow
+        *   7 - Cyan
+        *   8 - Magenta
+        *   9 - Green
+        */
