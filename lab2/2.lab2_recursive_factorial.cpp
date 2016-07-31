@@ -3,13 +3,13 @@ Jason Chalom 711985 2016
 Use: g++ -fopenmp 2.lab2_recursive_factorial.cpp -o example2.out
 */
 
-#include <stdio>
-#include <stdlib>
-#include <cmath>
-#include <time.h>
+#include "stdio.h"
+#include "omp.h"
 #include <iostream>
+#include <cmath>
+#include <stdlib.h>     
+#include <time.h>       
 #include <fstream>
-#include <omp.h>
 
 using namespace std;
 
@@ -26,18 +26,8 @@ const int averageNumber = 50; //number of times to repeat a dimension
 char newline[1] = "";
 
 //file outputs
-const char* file = "results/Example3_1_VaryNoThreads_FixedArraySize.csv";
+const char* file = "results/Example2.csv";
 const char* execution_times_file = "results/ExecutionTimes.txt";
-
-void PrintMatrix (double *vector)
-{
-	std::cout << "Vector:" << endl;
-	for (int i = 0; i < row; i++)
-	{
-		std::cout << vector[i] << " ";
-		std::cout << std::endl;
-	}
-}
 
 void FileWriter(char* output, const char* file)
 {
@@ -49,13 +39,18 @@ void FileWriter(char* output, const char* file)
 
 void initFileOuts()
 {
-	char header1[20] = "Sequential Factorial, Time";
+	char header1[50] = "Recursive Factorial, Time";
 	FileWriter(header1, file);
 }
 
 int calcRecursiveFactorial (int n)
 {
-	
+	if (n <= 1)
+	{
+		return 1;
+	}
+
+	return n * calcRecursiveFactorial(n-1);
 }
 
 int main () 
@@ -77,7 +72,7 @@ int main ()
 	}
 
 	double start_main = omp_get_wtime();
-	
+
 	int factorial = calcRecursiveFactorial(n);
 
 	double end_main = omp_get_wtime(); 
@@ -88,7 +83,7 @@ int main ()
 
 	char answer[500] = "";
 	sprintf(answer, "%d,%f", factorial, diff_main);
-	FileWriter(factorial, file);
+	FileWriter(answer, file);
 
 	char lineout[255] = "";
 	sprintf (lineout, "Example 2 Main Execution Time: %f", diff_main);

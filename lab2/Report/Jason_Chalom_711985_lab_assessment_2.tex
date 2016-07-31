@@ -60,6 +60,9 @@
 \setcounter{page}{1}
 \pagenumbering{arabic}
 
+\section{General Assumptions}
+The system for which the decomposition of the factorial algorithm is to be used has only two processing units. Each unit is identical with their own exclusive memory and also have shared memory spaces between them. The factorial algorithm being investigated will have 1 as the last number multiplied to the running variable in order to find the factorial os some integer $n$.
+
 \section{Directed Acyclic Graphs}
 \noindent \chapter{Chosen Decomposition:} \\
 \noindent Let $n$ be the number whose factorial is being investigated. \\
@@ -75,7 +78,7 @@ $ n = \{ n \in \mathbb{Z}\ |\ 1 \leq n \leq \mathbb{Z}\} $
 Therefore let $L_1$ and $L_2$ be subsets of $L$ such that $L \in (L_1 + L_2) $.
 
 \noindent Let $i \in \mathbb{Z} \ s.t. \ 0 \in i < n$.
-Therefore $L_1 \in \{ n\ |\ (n - i)\ \%2 = 0 \}$ and $L_2 \in \{ n\ |\ [(n - i) - 1]\ \%2 = 0 \}$.\\\\
+Therefore $L_1 \in \{ n\ |\ (n - i)\ mod \ 2 = 0 \}$ and $L_2 \in \{ n\ |\ [(n - i) - 1]\ mod \ 2 = 0 \}$.\\\\
 
 
 \begin{figure}
@@ -85,11 +88,11 @@ Therefore $L_1 \in \{ n\ |\ (n - i)\ \%2 = 0 \}$ and $L_2 \in \{ n\ |\ [(n - i) 
 \end{figure}
 \noindent Let $T_1$, $T_2$ and $T_3$ be the tasks which make up the decomposition of the factorial operation.\\
 \\
-\noindent $T_1$ uses the dataset $L_1$.\\
-\noindent $T_2$ uses the dataset $L_2$.\\
-\noindent $T_3$ uses the dataset $L_3$.\\
+\noindent $T_1$ uses the data-set $L_1$.\\
+\noindent $T_2$ uses the data-set $L_2$.\\
+\noindent $T_3$ uses the data-set $L_3$.\\
 \\
-\noindent $T_1$ and $T_2$ both iterate through their respective datasets and multiply a running variable by the next number in their respective datasets.
+\noindent $T_1$ and $T_2$ both iterate through their respective data-sets and multiply a running variable by the next number in their respective data-sets.
 This variable is initialised by 1 and it becomes the answer of the previous iteration of the respective task. \\
 \noindent $T_3$ is the task which multiplies the respective results of $T_1$ and $T_2$.\\\\
 
@@ -103,11 +106,24 @@ This variable is initialised by 1 and it becomes the answer of the previous iter
 
 
 \section{Algorithm Complexity}
+Assumptions made reguarding the 
+\noindent \chapter{Sequential Complexity:} \\
+The complexity of the sequential algorithm is: $\ominus(n)$, where $n$ is the number being investigated as that many operations have to be completed to find the factorial.\\
+
+\noindent \chapter{Recursive Complexity:} \\
+The complexity of the recursive algorithm is: $\ominus(n + k)$, where $n$ is the number being investigated as that many operations have to be completed to find the factorial. $k$ is the arbitrary constant which represents the cost of the function recursively spawning itself $n$ times.\\
+
+\noindent \chapter{Parallel Sequential Complexity:} \\
+The time complexity of the decomposition of the sequential algorithm (The one from section 1) is: $\ominus(\frac{n}{2} + 1)$, where $n$ is the number being investigated as that many operations have to be completed to find the factorial and $1$ is the assumption that the reduction operator and final result takes constant time to complete. Another assumption that made is that both $T_1$ and $T_2$ complete their operations at roughly the same amount of time due to them having approximately the same number of operations to complete.\\
+
+\noindent The computational complexity of this decomposition is: $\ominus(n + k)$, where $n$ is the number being investigated as that many operations have to be completed to find the factorial and $k$ is a constant that represents the complexity of the reduction operator and the complexity of the final operation. This is because whilst the parallel version can complete its calculation faster than the standard iterative approach it cannot make the amount of computations required to complete the calculations any less.\\
+
+\noindent \chapter{Parallel Recursive Complexity:} \\
+The time complexity of a decomposition of the recursive algorithm is: $\ominus(\frac{n}{2} + k)$, where $n$ is the number being investigated and $k$ is a constant that represents the time taken due the reduction operations, wait factor of the different sections used and the time taken in memory due to executing the recursive operations of the algorithm.\\
 
 
 
 \section{OpenMP Implementation}
-
 
 
 \end{page}
