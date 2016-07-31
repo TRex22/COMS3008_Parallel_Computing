@@ -106,7 +106,7 @@ This variable is initialised by 1 and it becomes the answer of the previous iter
 
 
 \section{Algorithm Complexity}
-Assumptions made reguarding the 
+Assumptions made regarding the 
 \noindent \chapter{Sequential Complexity:} \\
 The complexity of the sequential algorithm is: $\ominus(n)$, where $n$ is the number being investigated as that many operations have to be completed to find the factorial.\\
 
@@ -116,12 +116,12 @@ The complexity of the recursive algorithm is: $\ominus(n + k)$, where $n$ is the
 \noindent \chapter{Parallel Sequential Complexity:} \\
 The time complexity of the decomposition of the sequential algorithm (The one from section 1) is: $\ominus(\frac{n}{2} + 1)$, where $n$ is the number being investigated as that many operations have to be completed to find the factorial and $1$ is the assumption that the reduction operator and final result takes constant time to complete. Another assumption that made is that both $T_1$ and $T_2$ complete their operations at roughly the same amount of time due to them having approximately the same number of operations to complete.\\
 
-\noindent The computational complexity of this decomposition is: $\ominus(n + k)$, where $n$ is the number being investigated as that many operations have to be completed to find the factorial and $k$ is a constant that represents the complexity of the reduction operator and the complexity of the final operation. This is because whilst the parallel version can complete its calculation faster than the standard iterative approach it cannot make the amount of computations required to complete the calculations any less.\\
+\noindent The computational complexity of this decomposition is: $\ominus(n + k)$, where $n$ is the number being investigated as that many operations have to be completed to find the factorial and $k$ is a constant that represents the complexity of the reduction operator and the complexity of the final operation. This is because the parallel version can complete its calculation faster than the standard iterative approach it cannot make the amount of computations required to complete the calculations any less.\\
 
 \noindent \chapter{Parallel Recursive Complexity:} \\
 The time complexity of a decomposition of the recursive algorithm is: $\ominus(\frac{n}{2} + k)$, where $n$ is the number being investigated and $k$ is a constant that represents the time taken due the reduction operations, wait factor of the different sections used and the time taken in memory due to executing the recursive operations of the algorithm.\\
 
-
+\noindent The computational complexity of this decomposition is: $\ominus(n + k)$, where $n$ is the number being investigated as that many operations have to be completed to find the factorial and $k$ is a constant that represents the complexity of the reduction operator and the internal recursive nature of each section. This is because the parallel version can complete its calculation faster than the standard recursive approach it cannot make the amount of computations required to complete the calculations any less.\\ 
 
 \section{OpenMP Implementation}
 
