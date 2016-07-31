@@ -1,0 +1,35 @@
+Announcement
+Subject 	Clarification and marketing
+Saved By 	Phumlani Khoza
+Modified Date 	Jul 28, 2016 11:38 am
+Groups 	site
+Message
+
+Greetings everyone,
+
+There are a few things I want to clarify, and there is one thing I want to market. The latter is infinitely more interesting, I'm joking.
+
+Clarification:
+
+    Timetable: some people have an invalid timetable. I have uploaded the appropriate version onto the resources section, please look it up.
+    Terminology: Liam asked why the boundary segments have 2n words associated with them, as it appears in the slides. I said that the boundary segments are associated with n words each, and that the interior segments are associated with 2n words each. The confusion is in the terminology. What the authors refer to as boundary is a matter of processors, and not the image itself. Using the terminology of the book, there are then boundary and "non-boundary" segments (i.e. processors 0 and 3). Using image processing terminology, there would be boundary segments (i.e. the extremeties of the image, which in this case would correspond to the left column of sub-image 0 and the right column of sub-image 3). Still on image processing, there would also be "non-boundary" segments which correspond to the interior segments (i.e. sub-image 1 and 2). I hope this clarifies the inconsistency. Please go through the derivation of the equation so that this can be clear.
+
+Marketing:
+
+    "Intelligence group": we have a meetup group (one of my supervisor and some other guys) which is open to everyone. We meet once a month and we cover various topics. Usually we have two speakers who are either working in academia or industry and who make use of "stuff that makes machines act intelligent". Please join the group if you have interest in machine learning and AI type of stuff. URL: https://www.meetup.com/The-Intelligence-Group-Johannesburg/
+
+That's it for now.
+
+-Nhlanga
+
+
+
+ Message
+
+Greetings everyone,
+
+As previously discussed, the upcoming laboratory assessment will be based on numerical integration. I will discuss the concepts that you will need to solve the two problems during the tutorial session this Monday. Please ensure that you attend the session, there are a few intricacies that we have to discuss. These kinds of problems are very likely to be examinable.
+
+Kind regards,
+
+Nhlanga
