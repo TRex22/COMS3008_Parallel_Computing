@@ -15,14 +15,11 @@ using namespace std;
 
 //variables
 int noThreads = 1;
-
-const int overideNFactorial = 100000; //max before a seg fault
+int overideNFactorial = 100000;
 const double Min = 1;
 const double Max = 100;
-/*const bool PrintArray = true;*/
-const int experimentNumber = 1000; //number of iterations
-const int averageNumber = 50; //number of times to repeat a dimension
-
+int experimentNumber = 1000; //number of iterations
+int averageNumber = 50; //number of times to repeat a dimension
 char newline[1] = "";
 
 //file outputs
@@ -92,8 +89,18 @@ int calcParallelRecursiveFactorial (int n)
 	}
 }
 
-int main () 
-{	
+int main (int argc, char* argv[])
+{
+	//check if args
+	if (argc != 3)
+	{
+		std::cout << "Error: Must have two arguments.";
+		throw std::length_error("Must have two arguments.");
+	}
+	
+	overideNFactorial = atoi(argv[1]);
+	averageNumber = atoi(argv[2]);
+
 	//seed rnd
 	srand(time(NULL));
 
