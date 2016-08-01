@@ -16,7 +16,7 @@ using namespace std;
 //variables
 int noThreads = 1;
 
-const int overideNFactorial = 10000;
+const int overideNFactorial = 100000;//100000000;
 const double Min = 1;
 const double Max = 100;
 /*const bool PrintArray = true;*/
@@ -27,6 +27,7 @@ char newline[1] = "";
 
 //file outputs
 const char* file = "results/Example3.csv";
+const char* execution_times_file = "results/ExecutionTimes.txt";
 
 void FileWriter(char* output, const char* file)
 {
@@ -38,8 +39,24 @@ void FileWriter(char* output, const char* file)
 
 void initFileOuts()
 {
-	//char header1[50] = "Sequential Factorial";
-	//FileWriter(header1, file);
+	char header1[50] = "Parallel Sequential Factorial, Time";
+	FileWriter(header1, file);
+}
+
+int calcSeqentialFactorial (int n)
+{
+	int factorial = n;
+
+	#pragma omp parallel
+	{
+		#pragma omp for
+		for (int i = 1; i < n - 1; i++)
+		{
+			factorial = factorial * (n - i);
+		}
+	}
+	
+	return factorial;
 }
 
 int main () 
@@ -47,17 +64,31 @@ int main ()
 	//seed rnd
 	srand(time(NULL));
 
-	cout << "Running Sequential Factorial ..." << endl;
+	cout << "Running Parallel Sequential Factorial ..." << endl;
 	initFileOuts();
 
-	int n = 0;
-	if (overideNFactorial > 0)
+	int n = overideNFactorial;
+	if (overideNFactorial == 0)
 	{
-		n = overideNFactorial;
+		n = rand()*(Max-Min) + Min; // between 500 and 100
 	}
-	else
-	{
-		int n = rand()*(Max-Min) + Min; // between 500 and 100
-	}
+
+	double start_main = omp_get_wtime();
+
+	int factorial = calcSeqentialFactorial(n);
+
+	double end_main = omp_get_wtime(); 
+	double diff_main = end_main - start_main;
+	
+	cout << "Parallel Sequential Factorial of n: " << n << " is: " << factorial << endl;
+	cout << "main execution time: " << diff_main << endl;
+
+	char answer[500] = "";
+	sprintf(answer, "%d,%f", factorial, diff_main);
+	FileWriter(answer, file);
+
+	char lineout[255] = "";
+	sprintf (lineout, "Example 3 Main Execution Time: %f", diff_main);
+	FileWriter(lineout, execution_times_file);
 
 }

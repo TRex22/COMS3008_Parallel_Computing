@@ -16,7 +16,7 @@ using namespace std;
 //variables
 int noThreads = 1;
 
-const int overideNFactorial = 10000;
+const int overideNFactorial = 100000;
 const double Min = 1;
 const double Max = 100;
 /*const bool PrintArray = true;*/
@@ -62,12 +62,8 @@ int main ()
 	cout << "Running Sequential Factorial ..." << endl;
 	initFileOuts();
 
-	int n = 0;
-	if (overideNFactorial > 0)
-	{
-		n = overideNFactorial;
-	}
-	else
+	int n = overideNFactorial;
+	if (overideNFactorial == 0)
 	{
 		n = rand()*(Max-Min) + Min; // between 500 and 100
 	}

@@ -16,7 +16,7 @@ using namespace std;
 //variables
 int noThreads = 1;
 
-const int overideNFactorial = 10000;
+const int overideNFactorial = 100000; //max before a seg fault
 const double Min = 1;
 const double Max = 100;
 /*const bool PrintArray = true;*/
