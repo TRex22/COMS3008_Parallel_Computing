@@ -1,6 +1,8 @@
 /*
 Jason Chalom 711985 2016
 Use: g++ -fopenmp 2.lab2_recursive_factorial.cpp -o example2.out
+
+usage: ./example2.out n averageNumber incrementSize noIncrements writeFile?
 */
 
 #include "stdio.h"
@@ -75,7 +77,6 @@ int main (int argc, char* argv[])
 
 	for (int i = 0; i < experimentNumber; i++)
 	{
-		n = n + increment;
 		for (int j = 0; j < averageNumber; j++)
 		{
 
@@ -91,12 +92,13 @@ int main (int argc, char* argv[])
 				cout << "Recursive Factorial of n: " << n << " is: " << factorial << endl;
 				cout << "main execution time: " << diff_main << endl;
 			}
-			
+
 			char answer[500] = "";
 			sprintf(answer, "%d,%f,%f", n, diff_main, factorial);
 			FileWriter(answer, file);
-			FileWriter(newline, file);
 		}
+		FileWriter(newline, file);
+		n = n + increment;
 	}
 
 	/*char lineout[255] = "";

@@ -1,6 +1,8 @@
 /*
 Jason Chalom 711985 2016
 Use: g++ -fopenmp 1.lab2_seqential_factorial.cpp -o example1.out
+
+usage: ./example1.out n averageNumber incrementSize noIncrements writeFile?
 */
 
 #include "stdio.h"
@@ -75,8 +77,7 @@ int main (int argc, char* argv[])
 	initFileOuts();
 
 	for (int i = 0; i < experimentNumber; i++)
-	{
-		n = n + increment;
+	{		
 		for (int j = 0; j < averageNumber; j++)
 		{
 			double start_main = omp_get_wtime();
@@ -95,8 +96,9 @@ int main (int argc, char* argv[])
 			char answer[500] = "";
 			sprintf(answer, "%d,%f,%f", n, diff_main, factorial);
 			FileWriter(answer, file);
-			FileWriter(newline, file);
 		}
+		FileWriter(newline, file);
+		n = n + increment;
 	}
 
 	/*char lineout[255] = "";

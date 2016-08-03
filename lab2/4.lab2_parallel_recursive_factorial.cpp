@@ -1,6 +1,8 @@
 /*
 Jason Chalom 711985 2016
 Use: g++ -fopenmp 4.lab2_parallel_recursive_factorial.cpp -o example4.out
+
+usage: ./example4.out n averageNumber incrementSize noIncrements writeFile?
 */
 
 #include "stdio.h"
@@ -110,7 +112,6 @@ int main (int argc, char* argv[])
 
 	for (int i = 0; i < experimentNumber; i++)
 	{
-		n = n + increment;
 		for (int j = 0; j < averageNumber; j++)
 		{
 			double start_main = omp_get_wtime();
@@ -125,12 +126,13 @@ int main (int argc, char* argv[])
 				cout << "Parallel Recursive Factorial of n: " << n << " is: " << factorial << endl;
 				cout << "main execution time: " << diff_main << endl;
 			}
-			
+
 			char answer[500] = "";
 			sprintf(answer, "%d,%f,%f", n, diff_main, factorial);
-			FileWriter(answer, file);
-			FileWriter(newline, file);			
+			FileWriter(answer, file);					
 		}
+		FileWriter(newline, file);	
+		n = n + increment;
 	}
 
 	/*char lineout[255] = "";
