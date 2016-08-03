@@ -58,7 +58,7 @@ int calcSeqentialFactorial (int n)
 		#pragma omp for reduction(*:factorial)
 		for (int i = 1; i < n - 1; i++)
 		{
-			factorial *= factorial * (n - i);
+			factorial *= (n - i);
 		}
 	}
 	

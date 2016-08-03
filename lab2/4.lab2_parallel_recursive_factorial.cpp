@@ -75,10 +75,10 @@ int calcParallelRecursiveFactorial (int n)
 	int p,q = 1; 
 	//public variables in the scope of sections because the sections do not every use each others variable
 	//also the recution operation is implicit when the parallel block of code is complete, p and q are multiplied into factorial
-
+	
 	//#pragma omp main
 	{		
-		#pragma omp sections 
+		#pragma omp sections
 		{
 			#pragma omp section
 			{
@@ -93,10 +93,8 @@ int calcParallelRecursiveFactorial (int n)
 				q = calcRecursiveFactorial(q);				
 			}			
 		}
-
-		#pragma omp critical
-		factorial = p * q;
-	}	
+	}
+	factorial = p * q;
 }
 
 int main (int argc, char* argv[])
