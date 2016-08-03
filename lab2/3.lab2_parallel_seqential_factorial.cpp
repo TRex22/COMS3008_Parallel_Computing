@@ -90,7 +90,7 @@ int main (int argc, char* argv[])
 		{
 			double start_main = omp_get_wtime();
 
-			int factorial = calcSeqentialFactorial(n);
+			unsigned int factorial = calcSeqentialFactorial(n);
 
 			double end_main = omp_get_wtime(); 
 			double diff_main = end_main - start_main;
@@ -102,7 +102,7 @@ int main (int argc, char* argv[])
 			}
 
 			char answer[500] = "";
-			sprintf(answer, "%d,%f,%f", n, diff_main, factorial);
+			sprintf(answer, "%d,%f,%d", n, diff_main, factorial);
 			FileWriter(answer, file);		
 		}
 		FileWriter(newline, file);	
