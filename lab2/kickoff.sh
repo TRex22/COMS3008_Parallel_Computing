@@ -1,10 +1,10 @@
 #!/bin/bash
 #n averageNumber incrementSize noIncrements writeFile? noThreads
 mkdir results
-./example1.out 100 50 100 100 1 4
-./example2.out 100 50 100 100 1 4
-./example3.out 100 50 100 100 1 4
-./example4.out 100 50 100 100 1 4
+./example1.out 100 50 100 10000 1 4
+./example2.out 100 50 100 10000 1 4
+./example3.out 100 50 100 10000 1 4
+./example4.out 100 50 100 10000 1 4
 
 #./dataProcessor.out
 mkdir results/mine
