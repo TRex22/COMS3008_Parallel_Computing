@@ -2,7 +2,7 @@
 Jason Chalom 711985 2016
 Use: g++ -fopenmp 4.lab2_parallel_recursive_factorial.cpp -o example4.out
 
-usage: ./example4.out n averageNumber incrementSize noIncrements writeFile?
+usage: ./example4.out n averageNumber incrementSize noIncrements writeFile? noThreads
 
 ./compile.sh to compile everything
 ./kickoff to run all, save to file and then determine averages using dataProcessor.out
@@ -72,7 +72,10 @@ int calcUpperRecursiveFactorial (int n, int half)
 int calcParallelRecursiveFactorial (int n)
 {
 	int factorial = 1;
-	int p,q = 1;
+	int p,q = 1; 
+	//public variables in the scope of sections because the sections do not every use each others variable
+	//also the recution operation is implicit when the parallel block of code is complete, p and q are multiplied into factorial
+	
 	//#pragma omp main
 	{		
 		#pragma omp sections
@@ -97,10 +100,10 @@ int calcParallelRecursiveFactorial (int n)
 int main (int argc, char* argv[])
 {
 	//check if args
-	if (argc != 6)
+	if (argc != 7)
 	{
-		std::cout << "Error: Must have five arguments.";
-		throw std::length_error("Must have five arguments.");
+		std::cout << "Error: Must have six arguments.";
+		throw std::length_error("Must have six arguments.");
 	}
 
 	n = atoi(argv[1]);
@@ -109,6 +112,8 @@ int main (int argc, char* argv[])
 	experimentNumber = atoi(argv[4]);
 
 	writeFile = atoi(argv[5]);
+	noThreads = atoi(argv[6]);
+	omp_set_num_threads(noThreads);
 
 	cout << "Running Parallel Recursive Factorial ..." << endl;
 	initFileOuts();

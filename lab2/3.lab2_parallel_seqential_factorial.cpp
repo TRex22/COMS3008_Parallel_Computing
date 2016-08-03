@@ -2,7 +2,7 @@
 Jason Chalom 711985 2016
 Use: g++ -fopenmp 3.lab2_parallel_seqential_factorial.cpp -o example3.out
 
-usage: ./example3.out n averageNumber incrementSize noIncrements writeFile?
+usage: ./example3.out n averageNumber incrementSize noIncrements writeFile? noThreads
 
 ./compile.sh to compile everything
 ./kickoff to run all, save to file and then determine averages using dataProcessor.out
@@ -68,10 +68,10 @@ int calcSeqentialFactorial (int n)
 int main (int argc, char* argv[])
 {
 	//check if args
-	if (argc != 6)
+	if (argc != 7)
 	{
-		std::cout << "Error: Must have five arguments.";
-		throw std::length_error("Must have five arguments.");
+		std::cout << "Error: Must have six arguments.";
+		throw std::length_error("Must have six arguments.");
 	}
 
 	n = atoi(argv[1]);
@@ -80,6 +80,8 @@ int main (int argc, char* argv[])
 	experimentNumber = atoi(argv[4]);
 
 	writeFile = atoi(argv[5]);
+	noThreads = atoi(argv[6]);
+	omp_set_num_threads(noThreads);
 
 	cout << "Running Parallel Sequential Factorial ..." << endl;
 	initFileOuts();
