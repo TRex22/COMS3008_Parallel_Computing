@@ -91,9 +91,12 @@ int main (int argc, char* argv[])
 			double end_main = omp_get_wtime(); 
 			double diff_main = end_main - start_main;
 			
-			/*cout << "Parallel Sequential Factorial of n: " << n << " is: " << factorial << endl;
-			cout << "main execution time: " << diff_main << endl;*/
-
+			if (!writeFile)
+			{
+				cout << "Parallel Sequential Factorial of n: " << n << " is: " << factorial << endl;
+				cout << "main execution time: " << diff_main << endl;
+			}
+			
 			char answer[500] = "";
 			sprintf(answer, "%d,%f,%f", n, diff_main, factorial);
 			FileWriter(answer, file);
