@@ -63,9 +63,9 @@ int calcUpperRecursiveFactorial (int n, int half)
 int calcParallelRecursiveFactorial (int n)
 {
 	int factorial = 1;
+	int p,q = 1;
 	//#pragma omp main
-	{
-		int p,q = 1;
+	{		
 		#pragma omp sections
 		{
 			#pragma omp section
@@ -81,12 +81,8 @@ int calcParallelRecursiveFactorial (int n)
 				q = calcRecursiveFactorial(q);				
 			}			
 		}
-
-		#pragma omp reduction
-		{
-			factorial = p * q;
-		}
 	}
+	factorial = p * q;
 }
 
 int main (int argc, char* argv[])
@@ -97,7 +93,7 @@ int main (int argc, char* argv[])
 		std::cout << "Error: Must have two arguments.";
 		throw std::length_error("Must have two arguments.");
 	}
-	
+
 	overideNFactorial = atoi(argv[1]);
 	averageNumber = atoi(argv[2]);
 
