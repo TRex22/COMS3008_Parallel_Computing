@@ -3,6 +3,9 @@ Jason Chalom 711985 2016
 Use: g++ -fopenmp 3.lab2_parallel_seqential_factorial.cpp -o example3.out
 
 usage: ./example3.out n averageNumber incrementSize noIncrements writeFile?
+
+./compile.sh to compile everything
+./kickoff to run all, save to file and then determine averages using dataProcessor.out
 */
 
 #include "stdio.h"

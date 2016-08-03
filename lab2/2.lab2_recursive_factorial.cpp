@@ -3,6 +3,9 @@ Jason Chalom 711985 2016
 Use: g++ -fopenmp 2.lab2_recursive_factorial.cpp -o example2.out
 
 usage: ./example2.out n averageNumber incrementSize noIncrements writeFile?
+
+./compile.sh to compile everything
+./kickoff to run all, save to file and then determine averages using dataProcessor.out
 */
 
 #include "stdio.h"
