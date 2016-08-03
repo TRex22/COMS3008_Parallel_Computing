@@ -40,7 +40,7 @@ void FileWriter(char* output, const char* file)
 
 void initFileOuts()
 {
-	char header1[50] = "n, Time";
+	char header1[50] = "n, Time, Factorial";
 	FileWriter(header1, file);
 }
 
@@ -124,7 +124,7 @@ int main (int argc, char* argv[])
 			cout << "main execution time: " << diff_main << endl;*/
 
 			char answer[500] = "";
-			sprintf(answer, "%d,%f", n, diff_main);
+			sprintf(answer, "%d,%f,%f", n, diff_main, factorial);
 			FileWriter(answer, file);
 			FileWriter(newline, file);			
 		}
