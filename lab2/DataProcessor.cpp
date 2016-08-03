@@ -117,7 +117,7 @@ double CalcVariance(double** values, int block_count)
 
 void InitOutput(char* file)
 {
-	char header[50] = "Answer,Average,Min,Max,Range,Variance";
+	char header[50] = "n,Average,Min,Max,Range,Variance";
 	FileWriter(header, file);
 }
 
