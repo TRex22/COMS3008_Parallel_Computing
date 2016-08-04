@@ -1,3 +1,4 @@
+Completion Times Of Algorithms (in Seconds)
 Example 1 Main Execution Time: 12.025520
 Example 3 Main Execution Time: 4.927197
 Example 4 Main Execution Time: 19.324828
