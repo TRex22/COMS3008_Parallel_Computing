@@ -86,33 +86,40 @@ int main (int argc, char* argv[])
 	cout << "Running Parallel Sequential Factorial ..." << endl;
 	initFileOuts();
 
+	double start_main = omp_get_wtime();
+	
 	for (int i = 0; i < experimentNumber; i++)
 	{
 		for (int j = 0; j < averageNumber; j++)
 		{
-			double start_main = omp_get_wtime();
+			double start = omp_get_wtime();
 
 			unsigned int factorial = calcSeqentialFactorial(n);
 
-			double end_main = omp_get_wtime(); 
-			double diff_main = end_main - start_main;
+			double end = omp_get_wtime(); 
+			double diff = end - start;
 			
 			if (!writeFile)
 			{
 				cout << "Parallel Sequential Factorial of n: " << n << " is: " << factorial << endl;
-				cout << "main execution time: " << diff_main << endl;
+				cout << "main execution time: " << diff << endl;
 			}
 
 			char answer[500] = "";
-			sprintf(answer, "%d,%f,%d", n, diff_main, factorial);
+			sprintf(answer, "%d,%f,%d", n, diff, factorial);
 			FileWriter(answer, file);		
 		}
 		FileWriter(newline, file);	
 		n = n + increment;
 	}
 
-	/*char lineout[255] = "";
+
+	double end_main = omp_get_wtime(); 
+	double diff_main = end_main - start_main;
+	
+	char lineout[255] = "";
 	sprintf (lineout, "Example 3 Main Execution Time: %f", diff_main);
-	FileWriter(lineout, execution_times_file);*/
+	cout << "main execution time: " << diff_main << endl;
+	FileWriter(lineout, execution_times_file);
 
 }
