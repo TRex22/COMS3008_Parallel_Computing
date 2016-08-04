@@ -53,7 +53,7 @@ int calcSeqentialFactorial (int n)
 {
 	int factorial = n;
 
-	#pragma omp parallel
+	#pragma omp parallel 
 	{
 		#pragma omp for reduction(*:factorial)
 		for (int i = 1; i < n - 1; i++)
