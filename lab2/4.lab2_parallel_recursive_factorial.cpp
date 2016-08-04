@@ -76,7 +76,7 @@ int calcParallelRecursiveFactorial (int n)
 	//public variables in the scope of sections because the sections do not every use each others variable
 	//also the recution operation is implicit when the parallel block of code is complete, p and q are multiplied into factorial
 	
-	//#pragma omp main
+	#pragma omp parallel
 	{		
 		#pragma omp sections
 		{
