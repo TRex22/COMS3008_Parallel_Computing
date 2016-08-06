@@ -29,7 +29,7 @@ char newline[1] = "";
 bool writeFile = 1;
 
 //file outputs
-const char* file = "results/Example1.csv";
+const char* file = "results/Example2.csv";
 const char* execution_times_file = "results/ExecutionTimes.txt";
 
 void FileWriter(char* output, const char* file)
@@ -67,7 +67,7 @@ int main(int argc, char* argv[])
 	noThreads = atoi(argv[6]);
 	omp_set_num_threads(noThreads);*/
 
-	cout << "Running TrapezoidalSolver ..." << endl;
+	cout << "Running Monte Carlo Trapezoidal Solver ..." << endl;
 	initFileOuts();
 
 	double start_main = omp_get_wtime();
