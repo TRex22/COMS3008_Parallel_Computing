@@ -49,6 +49,8 @@ void initFileOuts()
 	FileWriter(header1, file);
 }
 
+
+
 int main(int argc, char* argv[])
 {
 	//check if args
