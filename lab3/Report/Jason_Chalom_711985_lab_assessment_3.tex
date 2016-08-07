@@ -6,6 +6,7 @@
 \usepackage{graphicx}
 \usepackage{amsmath}
 \usepackage{amssymb}
+\usepackage{natbib}
 
 \graphicspath{ {images/} }
  
@@ -127,11 +128,11 @@ Note: $\epsilon{} \simeq{} -4,329422607 x 10^{-8}$
 \break
 
 \noindent \chapter{Derivation of the Trapezoidal Rule (STR):}\\
-\noindent Let $P_1$ be a polynomial function.\\
+\noindent Let $P_n$ be a polynomial function of n terms.\\
 
 \begin{equation}
 \begin{aligned}
-    \int_{a}^{b} P_1(x) dx &\simeq{} \int_{a}^{b} f[a]dx + \int_{a}^{b} f[a,b](x-a)dx\\
+    \int_{a}^{b} P_n(x) dx &\simeq{} \int_{a}^{b} f[a]dx + \int_{a}^{b} f[a,b](x-a)dx\\
     &\simeq{} (b-a)f(x) + (\frac{f(b)-f(a)}{(b-a)}).\frac{1}{2}(x-a)^{2}]_{a}^{b}\\
     &\simeq{} (b-a)f(a) + (\frac{f(b)-f(a)}{(b-a)}).\frac{1}{2}(b-a)^{2}\\
     &\simeq{} \frac{b-a}{2}(f(a)+f(b))
@@ -180,6 +181,7 @@ Note: $\Delta{x}$ is fixed.
 \end{equation}
 \\\\
 
+
 \noindent \chapter{Implementation Results:}\\
 
 \noindent \chapter{Implementation Analysis:}\\
@@ -188,4 +190,6 @@ Note: $\Delta{x}$ is fixed.
 \noindent \chapter{:} 
 
 \end{page}
+
+
 \end{document}
