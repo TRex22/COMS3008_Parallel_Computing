@@ -45,8 +45,7 @@ void FileWriter(char* output, const char* file)
 
 void initFileOuts()
 {
-	char header1[50] = "n, Time, Factorial";
-	FileWriter(header1, file);
+
 }
 
 const long double calcFunction(double x)
@@ -74,27 +73,14 @@ long double calcTrapezoidalApprox(int noPartitions)
 int main(int argc, char* argv[])
 {
 	//check if args
-	if (argc != 7)
+	if (argc != 10)
 	{
-		std::cout << "Error: Must have six arguments.";
-		throw std::length_error("Must have six arguments.");
+		std::cout << "Error: Must have nine arguments.";
+		throw std::length_error("Must have nine arguments.");
 	}
-
-
-	/*
-	int noThreads = 1;
-	int n = 100000;
-	int experimentNumber = 1000; //number of iterations
-	int averageNumber = 50; //number of times to repeat a dimension*/
-
-	/*n = atoi(argv[1]);
-	averageNumber = atoi(argv[2]);
-	int increment = atoi(argv[3]);
-	experimentNumber = atoi(argv[4]);
-
-	writeFile = atoi(argv[5]);
-	noThreads = atoi(argv[6]);
-	omp_set_num_threads(noThreads);*/
+	
+	
+	//omp_set_num_threads(noThreads);
 
 	cout << "Running TrapezoidalSolver ..." << endl;
 	initFileOuts();
