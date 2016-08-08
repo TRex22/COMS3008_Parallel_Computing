@@ -19,14 +19,14 @@ Usage:
 using namespace std;
 
 //variables
-int noThreads = 1;
-int n = 100000;
 const double Min = 1;
 const double Max = 100;
-int experimentNumber = 1000; //number of iterations
-int averageNumber = 50; //number of times to repeat a dimension
+bool writeFile = 0;
 char newline[1] = "";
-bool writeFile = 1;
+
+const int a = 0;
+const int b = 20;
+const double analytical_integration_answer = pow(-exp(1),(-20)) * (20) - pow(exp(1),(-20)) + 1; //found in part 2 of lab 3 documentation
 
 //file outputs
 const char* file = "results/Example1.csv";
@@ -49,6 +49,28 @@ void initFileOuts()
 	FileWriter(header1, file);
 }
 
+const long double calcFunction(double x)
+{
+	return x * pow(exp(1),(-x));
+}
+
+long double calcTrapezoidalApprox(int noPartitions) 
+{
+	double partitionWidth = (b-a) / noPartitions;
+
+	double approx = calcFunction(a) + calcFunction(b); //end ones
+	double a_now = a;
+	for (int i = 0; i < noPartitions - 2; i++)
+	{
+		double b_now = (i+1) * (a_now + partitionWidth);
+		approx += calcFunction(b_now);
+
+		a_now = b_now;
+	}
+
+	return (partitionWidth / 2) * approx;
+}
+
 int main(int argc, char* argv[])
 {
 	//check if args
@@ -57,6 +79,13 @@ int main(int argc, char* argv[])
 		std::cout << "Error: Must have six arguments.";
 		throw std::length_error("Must have six arguments.");
 	}
+
+
+	/*
+	int noThreads = 1;
+	int n = 100000;
+	int experimentNumber = 1000; //number of iterations
+	int averageNumber = 50; //number of times to repeat a dimension*/
 
 	/*n = atoi(argv[1]);
 	averageNumber = atoi(argv[2]);
@@ -70,9 +99,13 @@ int main(int argc, char* argv[])
 	cout << "Running TrapezoidalSolver ..." << endl;
 	initFileOuts();
 
+	//partition width
+	//(b-a)/amount
 	double start_main = omp_get_wtime();
 
-	
+	double noPartitions = 1000.00;
+	long double trapezoidal_approximation = calcTrapezoidalApprox(noPartitions);
+	cout << "Approx: " << trapezoidal_approximation << endl;
 
 	double end_main = omp_get_wtime(); 
 	double diff_main = end_main - start_main;
