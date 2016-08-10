@@ -60,15 +60,21 @@ double calcFunction(double x)
 bool simPoint(int c, int d)
 {
 	//make random x,y
-	int x = rand()*(b-a)+a;
-	int y = rand()*(d-c)+c;
-
+	int x = rand() % b + a;
+	int y = rand() % d + c;
+	//cout << y << endl;
 	//in or out
 
 	double functionValue = calcFunction(x);
 
-	if (y > functionValue) return false;
-	else return true;
+	if (y > functionValue) 
+	{
+		return false;
+	}
+	else 
+	{
+		return true;
+	}
 }
 
 double simulateFunction(int c, int d)
@@ -83,10 +89,12 @@ double simulateFunction(int c, int d)
 		{
 			inGraph ++;
 		}
-		total ++;
+		total = i + 1;
 	}
 
+	//printf("in: %i total: %i", inGraph, total);
 	double result = inGraph / total;
+	return result;
 }
 
 int main(int argc, char* argv[])
@@ -112,7 +120,7 @@ int main(int argc, char* argv[])
 
 	double start_main = omp_get_wtime();
 
-	int c = calcFunction(a) + padding;
+	int c = calcFunction(a) - padding;
 	int d = calcFunction(b) + padding;
 
 	double approx = simulateFunction(c,d);

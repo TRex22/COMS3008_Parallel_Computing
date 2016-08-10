@@ -53,10 +53,10 @@ double calcFunction(double x)
 	return x * pow(exp(1),(-x));
 }
 
-double calcTrapezoidalApprox(int noPartitions) 
+double calcTrapezoidalApprox(int m) 
 {
 	//using derivation (h/2)(sum(f(xi) + f(xi+1)))
-	double h = (b-a) / noPartitions;
+	double h = (b-a) / m;
 
 	double approx = 0.0;
 	double x0 = a;
@@ -69,7 +69,8 @@ double calcTrapezoidalApprox(int noPartitions)
 		x1 = x1 + h;
 	}
 
-	return (h / 2) * approx;
+	double result = (h / 2) * approx;
+	return result;
 }
 
 int main(int argc, char* argv[])
