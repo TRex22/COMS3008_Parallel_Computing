@@ -48,26 +48,28 @@ void initFileOuts()
 
 }
 
-const long double calcFunction(double x)
+double calcFunction(double x)
 {
 	return x * pow(exp(1),(-x));
 }
 
 long double calcTrapezoidalApprox(int noPartitions) 
 {
-	double partitionWidth = (b-a) / noPartitions;
+	//using derivation (h/2)(sum(f(xi) + f(xi+1)))
+	double h = (b-a) / noPartitions;
 
-	double approx = calcFunction(a) + calcFunction(b); //end ones
-	double a_now = a;
-	for (int i = 0; i < noPartitions - 2; i++)
+	double approx = 0.0;
+	double x0 = a;
+	double x1 = a + h;
+
+	for (int i = 0; i < noPartitions; i++)
 	{
-		double b_now = (i+1) * (a_now + partitionWidth);
-		approx += calcFunction(b_now);
-
-		a_now = b_now;
+		approx += calcFunction(x0) + calcFunction(x1);
+		x0 = x1;
+		x1 = x1 + h;
 	}
 
-	return (partitionWidth / 2) * approx;
+	return (h / 2) * approx;
 }
 
 int main(int argc, char* argv[])
@@ -89,9 +91,11 @@ int main(int argc, char* argv[])
 	//(b-a)/amount
 	double start_main = omp_get_wtime();
 
-	double noPartitions = 1000.00;
+	int noPartitions = 1000;
 	long double trapezoidal_approximation = calcTrapezoidalApprox(noPartitions);
 	cout << "Approx: " << trapezoidal_approximation << endl;
+
+	/*cout << "X: " << calcFunction(2.3) << endl;*/
 
 	double end_main = omp_get_wtime(); 
 	double diff_main = end_main - start_main;

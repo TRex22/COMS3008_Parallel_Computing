@@ -45,8 +45,13 @@ void FileWriter(char* output, const char* file)
 
 void initFileOuts()
 {
-	char header1[50] = "n, Time, Factorial";
-	FileWriter(header1, file);
+/*	char header1[50] = "n, Time, Factorial";
+	FileWriter(header1, file);*/
+}
+
+double calcFunction(double x)
+{
+	return x * pow(exp(1),(-x));
 }
 
 int main(int argc, char* argv[])
