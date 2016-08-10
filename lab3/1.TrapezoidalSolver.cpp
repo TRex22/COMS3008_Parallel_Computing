@@ -62,7 +62,7 @@ double calcTrapezoidalApprox(int m)
 	double x0 = a;
 	double x1 = a + h;
 
-	for (int i = 0; i < noPartitions; i++)
+	for (int i = 0; i < m; i++)
 	{
 		approx += calcFunction(x0) + calcFunction(x1);
 		x0 = x1;
