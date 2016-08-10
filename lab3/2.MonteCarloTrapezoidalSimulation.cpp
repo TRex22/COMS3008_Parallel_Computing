@@ -1,6 +1,6 @@
 /*
 Jason Chalom 711985 2016
-Use: g++ -fopenmp 1.TrapezoidalSolver.cpp -o example1.out
+Use: g++ -fopenmp 2.cpp -o example2.out
 
 Usage: 
 
@@ -19,14 +19,17 @@ Usage:
 using namespace std;
 
 //variables
-int noThreads = 1;
-int n = 100000;
 const double Min = 1;
 const double Max = 100;
-int experimentNumber = 1000; //number of iterations
-int averageNumber = 50; //number of times to repeat a dimension
+bool writeFile = 0;
 char newline[1] = "";
-bool writeFile = 1;
+
+const int a = 0;
+const int b = 20;
+
+const int padding = 20;
+
+const double analytical_integration_answer = pow(-exp(1),(-20)) * (20) - pow(exp(1),(-20)) + 1; //found in part 2 of lab 3 documentation
 
 //file outputs
 const char* file = "results/Example2.csv";
@@ -54,6 +57,38 @@ double calcFunction(double x)
 	return x * pow(exp(1),(-x));
 }
 
+bool simPoint(int c, int d)
+{
+	//make random x,y
+	int x = rand()*(b-a)+a;
+	int y = rand()*(d-c)+c;
+
+	//in or out
+
+	double functionValue = calcFunction(x);
+
+	if (y > functionValue) return false;
+	else return true;
+}
+
+double simulateFunction(int c, int d)
+{
+	int total = 0;
+	int inGraph = 0;
+	//TODO fix
+	for (int i = 0; i < 1000000; i++)
+	{
+		bool test = simPoint(c, d);
+		if (test)
+		{
+			inGraph ++;
+		}
+		total ++;
+	}
+
+	double result = inGraph / total;
+}
+
 int main(int argc, char* argv[])
 {
 	//check if args
@@ -77,7 +112,12 @@ int main(int argc, char* argv[])
 
 	double start_main = omp_get_wtime();
 
-	
+	int c = calcFunction(a) + padding;
+	int d = calcFunction(b) + padding;
+
+	double approx = simulateFunction(c,d);
+
+	printf("%f\n", approx);
 
 	double end_main = omp_get_wtime(); 
 	double diff_main = end_main - start_main;

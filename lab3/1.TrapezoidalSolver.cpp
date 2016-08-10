@@ -53,7 +53,7 @@ double calcFunction(double x)
 	return x * pow(exp(1),(-x));
 }
 
-long double calcTrapezoidalApprox(int noPartitions) 
+double calcTrapezoidalApprox(int noPartitions) 
 {
 	//using derivation (h/2)(sum(f(xi) + f(xi+1)))
 	double h = (b-a) / noPartitions;
@@ -92,8 +92,8 @@ int main(int argc, char* argv[])
 	double start_main = omp_get_wtime();
 
 	int noPartitions = 1000;
-	long double trapezoidal_approximation = calcTrapezoidalApprox(noPartitions);
-	cout << "Approx: " << trapezoidal_approximation << endl;
+	double trapezoidal_approximation = calcTrapezoidalApprox(noPartitions);
+	printf("%f\n", trapezoidal_approximation);
 
 	/*cout << "X: " << calcFunction(2.3) << endl;*/
 
