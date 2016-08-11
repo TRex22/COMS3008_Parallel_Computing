@@ -53,11 +53,12 @@ double calcFunction(double x)
 	return x * pow(exp(1),(-x));
 }
 
-double calcTrapezoidalApprox(int m) 
+double calcTrapezoidalApprox(int m)
 {
 	//using derivation (h/2)(sum(f(xi) + f(xi+1)))
-	double h = (b-a) / m;
-
+	double h = (b-a);
+	h = h / m;
+	
 	double approx = 0.0;
 	double x0 = a;
 	double x1 = a + h;
