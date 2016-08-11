@@ -2,7 +2,7 @@
 Jason Chalom 711985 2016
 Use: g++ -fopenmp 2.cpp -o example2.out
 
-Usage: 
+Usage: ./example2.out initThread particleCount blockSize noIncrements incrementSize writeFile?
 
 ./compile.sh to compile everything
 ./kickoff to run all, save to file and then determine averages using dataProcessor.out
@@ -32,7 +32,10 @@ const int padding = 20;
 const double analytical_integration_answer = pow(-exp(1),(-20)) * (20) - pow(exp(1),(-20)) + 1; //found in part 2 of lab 3 documentation
 
 //file outputs
-const char* file = "results/Example2.csv";
+const char* file1 = "results/Example2_parallel_partitions.csv";
+const char* file2 = "results/Example2_parallel_threads.csv";
+const char* file3 = "results/Example2_serial.csv";
+
 const char* execution_times_file = "results/ExecutionTimes.txt";
 
 void FileWriter(char* output, const char* file)
@@ -60,8 +63,9 @@ double calcFunction(double x)
 bool simPoint(int c, int d)
 {
 	//make random x,y
-	int x = rand() % b + a;
-	int y = rand() % d + c;
+	int seed = omp_get_thread_num();
+	int x = (double)rand_r() % b + a;
+	int y = (double)rand_r() % d + c;
 	//cout << y << endl;
 	//in or out
 
@@ -99,6 +103,8 @@ double simulateFunction(int c, int d)
 
 int main(int argc, char* argv[])
 {
+	srand((unsigned)time(NULL));
+
 	//check if args
 	if (argc != 7)
 	{
@@ -106,14 +112,16 @@ int main(int argc, char* argv[])
 		throw std::length_error("Must have six arguments.");
 	}
 
-	/*n = atoi(argv[1]);
-	averageNumber = atoi(argv[2]);
-	int increment = atoi(argv[3]);
-	experimentNumber = atoi(argv[4]);
+	//initThread particleCount blockSize noIncrements incrementSize writeFile?
+	int noThreads = atoi(argv[1]);
+	int initialParticleCount = atoi(argv[2]);
+	int blockSize = atoi(argv[3]);
+	int noIncrements = atoi(argv[4]);
+	int incrementSize = atoi(argv[5]);
 
-	writeFile = atoi(argv[5]);
-	noThreads = atoi(argv[6]);
-	omp_set_num_threads(noThreads);*/
+	writeFile = atoi(argv[6]);
+	
+	omp_set_num_threads(noThreads);
 
 	cout << "Running Monte Carlo Trapezoidal Solver ..." << endl;
 	initFileOuts();
