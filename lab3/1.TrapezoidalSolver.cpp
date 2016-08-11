@@ -86,7 +86,7 @@ double calcTrapezoidalApprox(int m)
 double calcParallelTrapezoidalApprox(int noThreads, int m)
 {
 	omp_set_num_threads(noThreads);
-	
+
 	//using derivation (h/2)(sum(f(xi) + f(xi+1)))
 	double h = (b - a);
 	h = h / m;
@@ -195,6 +195,7 @@ int main(int argc, char* argv[])
 			sprintf(answer, "%d,%f,%d,%e,%e", noPartitions, trapezoidal_approximation, diff, error, abs(error));
 			FileWriter(answer, file1);
 
+//			------------------------------------------------------------------------------------------       \\
 
 			//thread increment, lock no partitions
 			noPartitions = 10000;

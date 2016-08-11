@@ -28,7 +28,7 @@ const double b = 20.00;
 const double analytical_integration_answer = pow(-exp(1), (-20)) * (20) - pow(exp(1), (-20)) + 1; //found in part 2 of lab 3 documentation
 
 //file outputs
-const char* file1 = "results/Example2_parallel_partitions.csv";
+const char* file1 = "results/Example2_parallel_particles.csv";
 const char* file2 = "results/Example2_parallel_threads.csv";
 const char* file3 = "results/Example2_serial.csv";
 
@@ -108,7 +108,7 @@ double simulateFunction(int particleCount, double c, double d)
 double parallelSimulateFunction(int noThreads, int particleCount, double c, double d)
 {
 	omp_set_num_threads(noThreads);
-	
+
 	double total = 0;
 	double inGraph = 0;
 	
@@ -170,15 +170,83 @@ int main(int argc, char* argv[])
 	{
 		for (int j = 0; j < blockSize; j++)
 		{
+			int noParticles = initialParticleCount + (i * incrementSize);
+
+			double start = omp_get_wtime();
 			double approx = simulateFunction(initialParticleCount, c, d);
+			double end = omp_get_wtime();
+			double diff = end - start;
 
 			double error = calcError(approx);
 
-			printf("%f error: %f\n", approx, error);
+			if (!writeFile)
+			{
+				printf("%d,%f,%d,%e,%e  ", noParticles, approx, diff, error, abs(error));
+				cout << "main execution time: " << diff << endl;
+			}
+
+			//save to file
+			//"Partition Size, Serial Trapezoidal Approximation, Time, Error"
+			char answer[500] = "";
+			sprintf(answer, "%d,%f,%d,%e,%e", noParticles, approx, diff, error, abs(error));
+			FileWriter(answer, file3);
 		}
 	}
 
 	//parallel
+	for (int i = 0; i < noIncrements; i++)
+	{
+		for (int j = 0; j < blockSize; j++)
+		{
+			//iterate through particles lock threads to 4
+			int noParticles = initialParticleCount + (i * incrementSize);
+			noThreads = 4;
+
+			double start = omp_get_wtime();
+			double approx1 = parallelSimulateFunction(noThreads, initialParticleCount, c, d);
+			double end = omp_get_wtime();
+			double diff = end - start;
+			
+			double error = calcError(approx1);
+
+			if (!writeFile)
+			{
+				printf("%d,%f,%d,%e,%e  ", noParticles, approx1, diff, error, abs(error));
+				cout << "main execution time: " << diff << endl;
+			}
+
+			//save to file
+			//"Partition Size, Serial Trapezoidal Approximation, Time, Error"
+			char answer1[500] = "";
+			sprintf(answer1, "%d,%f,%d,%e,%e", noParticles, approx1, diff, error, abs(error));
+			FileWriter(answer1, file1);
+
+//			------------------------------------------------------------------------------------------       \\
+
+			//iterate through threads lock particles to 1000000
+			noParticles = 1000000;
+			noThreads = noThreads + (i * incrementSize);
+
+			start = omp_get_wtime();
+			double approx2 = parallelSimulateFunction(noThreads, initialParticleCount, c, d);
+			end = omp_get_wtime();
+			diff = end - start;
+			
+			error = calcError(approx2);
+
+			if (!writeFile)
+			{
+				printf("%d,%f,%d,%e,%e  ", noParticles, approx2, diff, error, abs(error));
+				cout << "main execution time: " << diff << endl;
+			}
+
+			//save to file
+			//"Partition Size, Serial Trapezoidal Approximation, Time, Error"
+			char answer2[500] = "";
+			sprintf(answer2, "%d,%f,%d,%e,%e", noParticles, approx2, diff, error, abs(error));
+			FileWriter(answer2, file2);
+		}
+	}
 
 	double end_main = omp_get_wtime();
 	double diff_main = end_main - start_main;
