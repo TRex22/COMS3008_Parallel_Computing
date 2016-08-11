@@ -137,17 +137,16 @@ int main(int argc, char* argv[])
 	cout << "Running Monte Carlo Trapezoidal Solver ..." << endl;
 	initFileOuts();
 
-	double start_main = omp_get_wtime();
-
-	//cout << "a:" << a << " b:" << b << endl;
-
 	double c = calcFunction(a);
 	double d = calcFunction(b);
-	//cout << "c:" << c << " d:" << d << endl;
+
+	double start_main = omp_get_wtime();
 
 	double approx = simulateFunction(initialParticleCount, c, d);
 
-	printf("%f\n", approx);
+	double error = calcError(trapezoidal_approximation);
+	
+	printf("%f error: %f\n", approx, error);
 
 	double end_main = omp_get_wtime();
 	double diff_main = end_main - start_main;
