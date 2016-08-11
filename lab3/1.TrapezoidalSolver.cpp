@@ -86,6 +86,7 @@ double calcTrapezoidalApprox(int m)
 double calcParallelTrapezoidalApprox(int noThreads, int m)
 {
 	omp_set_num_threads(noThreads);
+	
 	//using derivation (h/2)(sum(f(xi) + f(xi+1)))
 	double h = (b - a);
 	h = h / m;

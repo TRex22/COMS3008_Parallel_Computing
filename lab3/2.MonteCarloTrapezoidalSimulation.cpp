@@ -89,7 +89,30 @@ double simulateFunction(int particleCount, double c, double d)
 {
 	double total = 0;
 	double inGraph = 0;
-	//TODO fix
+	
+	for (int i = 0; i < particleCount; i++)
+	{
+		bool test = simPoint(c, d);
+		if (test)
+		{
+			inGraph  = inGraph + 1;
+		}
+		total = i + 1;
+	}
+
+	//printf("in: %i total: %i", inGraph, total);
+	double result = inGraph / total;
+	return result;
+}
+
+double parallelSimulateFunction(int noThreads, int particleCount, double c, double d)
+{
+	omp_set_num_threads(noThreads);
+	
+	double total = 0;
+	double inGraph = 0;
+	
+	#pragma omp parallel for
 	for (int i = 0; i < particleCount; i++)
 	{
 		bool test = simPoint(c, d);
@@ -142,11 +165,20 @@ int main(int argc, char* argv[])
 
 	double start_main = omp_get_wtime();
 
-	double approx = simulateFunction(initialParticleCount, c, d);
+	//serial
+	for (int i = 0; i < noIncrements; i++)
+	{
+		for (int j = 0; j < blockSize; j++)
+		{
+			double approx = simulateFunction(initialParticleCount, c, d);
 
-	double error = calcError(trapezoidal_approximation);
-	
-	printf("%f error: %f\n", approx, error);
+			double error = calcError(approx);
+
+			printf("%f error: %f\n", approx, error);
+		}
+	}
+
+	//parallel
 
 	double end_main = omp_get_wtime();
 	double diff_main = end_main - start_main;
