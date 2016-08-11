@@ -22,10 +22,10 @@ using namespace std;
 bool writeFile = 0;
 char newline[1] = "";
 
-const int a = 0;
-const int b = 20;
+const double a = 0.00;
+const double b = 20.00;
 
-const double analytical_integration_answer = pow(-exp(1),(-20)) * (20) - pow(exp(1),(-20)) + 1; //found in part 2 of lab 3 documentation
+const double analytical_integration_answer = pow(-exp(1), (-20)) * (20) - pow(exp(1), (-20)) + 1; //found in part 2 of lab 3 documentation
 
 //file outputs
 const char* file1 = "results/Example1_parallel_partitions.csv";
@@ -39,9 +39,9 @@ void FileWriter(char* output, const char* file)
 	if (writeFile)
 	{
 		ofstream myfile;
-	  	myfile.open (file, std::ios_base::app);
-			myfile << output << "\n";
-	  	myfile.close();
+		myfile.open (file, std::ios_base::app);
+		myfile << output << "\n";
+		myfile.close();
 	}
 }
 
@@ -59,13 +59,13 @@ void initFileOuts()
 
 double calcFunction(double x)
 {
-	return x * pow(exp(1),(-x));
+	return x * pow(exp(1), (-x));
 }
 
 double calcTrapezoidalApprox(int m)
 {
 	//using derivation (h/2)(sum(f(xi) + f(xi+1)))
-	double h = (b-a);
+	double h = (b - a);
 	h = h / m;
 
 	double approx = 0.0;
@@ -87,7 +87,7 @@ double calcParallelTrapezoidalApprox(int noThreads, int m)
 {
 	omp_set_num_threads(noThreads);
 	//using derivation (h/2)(sum(f(xi) + f(xi+1)))
-	double h = (b-a);
+	double h = (b - a);
 	h = h / m;
 
 	double approx = 0.0;
@@ -130,7 +130,7 @@ int main(int argc, char* argv[])
 	int incrementSize = atoi(argv[5]);
 
 	writeFile = atoi(argv[6]);
-	
+
 	omp_set_num_threads(noThreads);
 
 	cout << "Running TrapezoidalSolver ..." << endl;
@@ -144,10 +144,10 @@ int main(int argc, char* argv[])
 		for (int j = 0; j < blockSize; j++)
 		{
 			int noPartitions = initialPartitions + (i * incrementSize);
-			
+
 			double start = omp_get_wtime();
 			double trapezoidal_approximation = calcTrapezoidalApprox(noPartitions);
-			double end = omp_get_wtime(); 
+			double end = omp_get_wtime();
 			double diff = end - start;
 
 			double error = calcError(trapezoidal_approximation);
@@ -162,10 +162,10 @@ int main(int argc, char* argv[])
 			//"Partition Size, Serial Trapezoidal Approximation, Time, Error"
 			char answer[500] = "";
 			sprintf(answer, "%d,%f,%d,%e,%e", noPartitions, trapezoidal_approximation, diff, error, abs(error));
-			FileWriter(answer, file3);	
+			FileWriter(answer, file3);
 		}
 	}
-	
+
 	//parallel partitions
 	for (int i = 0; i < noIncrements; i++)
 	{
@@ -177,7 +177,7 @@ int main(int argc, char* argv[])
 
 			double start = omp_get_wtime();
 			double trapezoidal_approximation = calcParallelTrapezoidalApprox(noThreads, noPartitions);
-			double end = omp_get_wtime(); 
+			double end = omp_get_wtime();
 			double diff = end - start;
 
 			double error = calcError(trapezoidal_approximation);
@@ -201,7 +201,7 @@ int main(int argc, char* argv[])
 
 			start = omp_get_wtime();
 			double trapezoidal_approximation2 = calcParallelTrapezoidalApprox(noThreads, noPartitions);
-			end = omp_get_wtime(); 
+			end = omp_get_wtime();
 			diff = end - start;
 
 			error = calcError(trapezoidal_approximation2);
@@ -220,11 +220,11 @@ int main(int argc, char* argv[])
 		}
 	}
 
-	double end_main = omp_get_wtime(); 
+	double end_main = omp_get_wtime();
 	double diff_main = end_main - start_main;
 
 	char lineout[255] = "";
 	sprintf (lineout, "Example 1 Main Execution Time: %f", diff_main);
 	cout << "main execution time: " << diff_main << endl;
-	FileWriter(lineout, execution_times_file);	
+	FileWriter(lineout, execution_times_file);
 }

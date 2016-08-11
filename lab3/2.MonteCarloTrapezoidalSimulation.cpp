@@ -19,17 +19,13 @@ Usage: ./example2.out initThread particleCount blockSize noIncrements incrementS
 using namespace std;
 
 //variables
-const double Min = 1;
-const double Max = 100;
 bool writeFile = 0;
 char newline[1] = "";
 
-const int a = 0;
-const int b = 20;
+const double a = 0.00;
+const double b = 20.00;
 
-const int padding = 20;
-
-const double analytical_integration_answer = pow(-exp(1),(-20)) * (20) - pow(exp(1),(-20)) + 1; //found in part 2 of lab 3 documentation
+const double analytical_integration_answer = pow(-exp(1), (-20)) * (20) - pow(exp(1), (-20)) + 1; //found in part 2 of lab 3 documentation
 
 //file outputs
 const char* file1 = "results/Example2_parallel_partitions.csv";
@@ -43,55 +39,63 @@ void FileWriter(char* output, const char* file)
 	if (writeFile)
 	{
 		ofstream myfile;
-	  	myfile.open (file, std::ios_base::app);
-			myfile << output << "\n";
-	  	myfile.close();
+		myfile.open (file, std::ios_base::app);
+		myfile << output << "\n";
+		myfile.close();
 	}
 }
 
 void initFileOuts()
 {
-/*	char header1[50] = "n, Time, Factorial";
-	FileWriter(header1, file);*/
+	char header1[75] = "Partition Size, Parallel Sim Approximation, Time, Error, Abs Error";
+	FileWriter(header1, file1);
+
+	char header2[75] = "Thread Count, Parallel Sim Approximation, Time, Error, Abs Error";
+	FileWriter(header2, file2);
+
+	char header3[75] = "Partition Size, Serial Sim Approximation, Time, Error, Abs Error";
+	FileWriter(header3, file3);
 }
 
 double calcFunction(double x)
 {
-	return x * pow(exp(1),(-x));
+	return x * pow(exp(1), (-x));
 }
 
-bool simPoint(int c, int d)
+bool simPoint(double c, double d)
 {
 	//make random x,y
-	int seed = omp_get_thread_num();
-	int x = (double)rand_r() % b + a;
-	int y = (double)rand_r() % d + c;
-	//cout << y << endl;
+	unsigned int seed = time(NULL);//omp_get_thread_num(); //could use, not proper seed tho
+
+	double x = (double)rand_r(&seed) * (b - a) / ((double)RAND_MAX - a);
+	double y = (double)rand_r(&seed) * (d - c) / ((double)RAND_MAX - c);
+
+	//cout << "x:" << x << " y:" << y << endl;
 	//in or out
 
 	double functionValue = calcFunction(x);
 
-	if (y > functionValue) 
+	if (y > functionValue)
 	{
 		return false;
 	}
-	else 
+	else
 	{
 		return true;
 	}
 }
 
-double simulateFunction(int c, int d)
+double simulateFunction(int particleCount, double c, double d)
 {
-	int total = 0;
-	int inGraph = 0;
+	double total = 0;
+	double inGraph = 0;
 	//TODO fix
-	for (int i = 0; i < 1000000; i++)
+	for (int i = 0; i < particleCount; i++)
 	{
 		bool test = simPoint(c, d);
 		if (test)
 		{
-			inGraph ++;
+			inGraph  = inGraph + 1;
 		}
 		total = i + 1;
 	}
@@ -99,6 +103,13 @@ double simulateFunction(int c, int d)
 	//printf("in: %i total: %i", inGraph, total);
 	double result = inGraph / total;
 	return result;
+}
+
+double calcError(double approx)
+{
+	double error = analytical_integration_answer - approx;
+	//cout << "error: " << error << endl;
+	return error;
 }
 
 int main(int argc, char* argv[])
@@ -120,7 +131,7 @@ int main(int argc, char* argv[])
 	int incrementSize = atoi(argv[5]);
 
 	writeFile = atoi(argv[6]);
-	
+
 	omp_set_num_threads(noThreads);
 
 	cout << "Running Monte Carlo Trapezoidal Solver ..." << endl;
@@ -128,18 +139,21 @@ int main(int argc, char* argv[])
 
 	double start_main = omp_get_wtime();
 
-	int c = calcFunction(a) - padding;
-	int d = calcFunction(b) + padding;
+	//cout << "a:" << a << " b:" << b << endl;
 
-	double approx = simulateFunction(c,d);
+	double c = calcFunction(a);
+	double d = calcFunction(b);
+	//cout << "c:" << c << " d:" << d << endl;
+
+	double approx = simulateFunction(initialParticleCount, c, d);
 
 	printf("%f\n", approx);
 
-	double end_main = omp_get_wtime(); 
+	double end_main = omp_get_wtime();
 	double diff_main = end_main - start_main;
 
 	char lineout[255] = "";
 	sprintf (lineout, "Example 1 Main Execution Time: %f", diff_main);
 	cout << "main execution time: " << diff_main << endl;
-	FileWriter(lineout, execution_times_file);	
+	FileWriter(lineout, execution_times_file);
 }
