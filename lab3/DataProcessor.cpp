@@ -1,7 +1,7 @@
 /*
 Jason Chalom 711985 2016
 Data Miner, do some basic stats on data collected
-Use: g++ -fopenmp DataProcessor.cpp
+Use: g++ -fopenmp DataProcessor.cpp inputfile outputfile blocksize colno colName <colNo is computer ranked ie 0 first>
 */
 
 #include "stdio.h"
@@ -25,7 +25,7 @@ void FileWriter(char* output, const char* file)
   	myfile.close();
 }
 
-double** GetCSVValues(char** block, int block_count)
+double** GetCSVValues(char** block, int col, int block_count)
 {
 	double** values = new double*[block_count];
 	char* chars_array_delim;
@@ -42,7 +42,12 @@ double** GetCSVValues(char** block, int block_count)
 		if (chars_array_delim != NULL)
 		{
 			values[i][0] = atof(chars_array_delim);
-			chars_array_delim = strtok (NULL, ",");
+
+			for (int k = 0; k < col; k++)
+			{
+				chars_array_delim = strtok (NULL, ",");
+			}
+
 			values[i][1] = atof(chars_array_delim);
 		}
 
@@ -115,9 +120,10 @@ double CalcVariance(double** values, int block_count)
 	return varSum / block_count;
 }
 
-void InitOutput(char* file)
+void InitOutput(char* file, char* colName)
 {
-	char header[50] = "n,Average,Min,Max,Range,Variance";
+	char header[50] = "";
+	sprintf(colName, ",Average,Min,Max,Range,Variance");
 	FileWriter(header, file);
 }
 
@@ -134,14 +140,15 @@ void InitOutput(char* file)
 int main(int argc, char* argv[])
 {
 	//check if args
-	if (argc != 4)
+	if (argc != 6)
 	{
-		std::cout << "Error: Must have three arguments.";
-		throw std::length_error("Must have three arguments.");
+		std::cout << "Error: Must have five arguments.";
+		throw std::length_error("Must have five arguments.");
 	}
 
+	int COL = atoi(argv[4]);
 	int BLOCK_SIZE = atoi(argv[3]);
-	InitOutput(argv[2]);
+	InitOutput(argv[2], argv[5]);
 
 	string line;
 	ifstream file (argv[1]);
@@ -176,7 +183,7 @@ int main(int argc, char* argv[])
 			
 			if (block_count == BLOCK_SIZE)
 			{
-				double** values = GetCSVValues(block, BLOCK_SIZE);
+				double** values = GetCSVValues(block, COL, BLOCK_SIZE);
 
 				double avg = CalcAverage(values, BLOCK_SIZE);
 				double min = FindMin(values, BLOCK_SIZE);
