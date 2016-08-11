@@ -155,14 +155,14 @@ int main(int argc, char* argv[])
 
 			if (!writeFile)
 			{
-				printf("%d,%f,%d,%e,%e  ", noPartitions, trapezoidal_approximation, diff, error, abs(error));
+				printf("%d,%f,%f,%e,%e  ", noPartitions, trapezoidal_approximation, diff, error, abs(error));
 				cout << "main execution time: " << diff << endl;
 			}
 
 			//save to file
 			//"Partition Size, Serial Trapezoidal Approximation, Time, Error"
 			char answer[500] = "";
-			sprintf(answer, "%d,%f,%d,%e,%e", noPartitions, trapezoidal_approximation, diff, error, abs(error));
+			sprintf(answer, "%d,%f,%f,%e,%e", noPartitions, trapezoidal_approximation, diff, error, abs(error));
 			FileWriter(answer, file3);
 		}
 	}
@@ -185,14 +185,14 @@ int main(int argc, char* argv[])
 
 			if (!writeFile)
 			{
-				printf("%d,%f,%d,%e,%e  ", noPartitions, trapezoidal_approximation, diff, error, abs(error));
+				printf("%d,%f,%f,%e,%e  ", noPartitions, trapezoidal_approximation, diff, error, abs(error));
 				cout << "main execution time: " << diff << endl;
 			}
 
 			//save to file
 			//"Partition Size, Serial Trapezoidal Approximation, Time, Error"
 			char answer[500] = "";
-			sprintf(answer, "%d,%f,%d,%e,%e", noPartitions, trapezoidal_approximation, diff, error, abs(error));
+			sprintf(answer, "%d,%f,%f,%e,%e", noPartitions, trapezoidal_approximation, diff, error, abs(error));
 			FileWriter(answer, file1);
 
 //			------------------------------------------------------------------------------------------       \\
@@ -210,14 +210,14 @@ int main(int argc, char* argv[])
 
 			if (!writeFile)
 			{
-				printf("%d,%f,%d,%e,%e  ", noThreads, trapezoidal_approximation2, diff, error, abs(error));
+				printf("%d,%f,%f,%e,%e  ", noThreads, trapezoidal_approximation2, diff, error, abs(error));
 				cout << "main execution time: " << diff << endl;
 			}
 
 			//save to file
 			//"Partition Size, Serial Trapezoidal Approximation, Time, Error"
 			char answer2[500] = "";
-			sprintf(answer2, "%d,%f,%d,%e,%e", noThreads, trapezoidal_approximation2, diff, error, abs(error));
+			sprintf(answer2, "%d,%f,%f,%e,%e", noThreads, trapezoidal_approximation2, diff, error, abs(error));
 			FileWriter(answer2, file2);
 		}
 	}

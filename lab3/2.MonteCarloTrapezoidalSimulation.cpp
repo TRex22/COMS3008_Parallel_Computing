@@ -181,14 +181,14 @@ int main(int argc, char* argv[])
 
 			if (!writeFile)
 			{
-				printf("%d,%f,%d,%e,%e  ", noParticles, approx, diff, error, abs(error));
+				printf("%d,%f,%f,%e,%e  ", noParticles, approx, diff, error, abs(error));
 				cout << "main execution time: " << diff << endl;
 			}
 
 			//save to file
 			//"Partition Size, Serial Trapezoidal Approximation, Time, Error"
 			char answer[500] = "";
-			sprintf(answer, "%d,%f,%d,%e,%e", noParticles, approx, diff, error, abs(error));
+			sprintf(answer, "%d,%f,%f,%e,%e", noParticles, approx, diff, error, abs(error));
 			FileWriter(answer, file3);
 		}
 	}
@@ -211,14 +211,14 @@ int main(int argc, char* argv[])
 
 			if (!writeFile)
 			{
-				printf("%d,%f,%d,%e,%e  ", noParticles, approx1, diff, error, abs(error));
+				printf("%d,%f,%f,%e,%e  ", noParticles, approx1, diff, error, abs(error));
 				cout << "main execution time: " << diff << endl;
 			}
 
 			//save to file
 			//"Partition Size, Serial Trapezoidal Approximation, Time, Error"
 			char answer1[500] = "";
-			sprintf(answer1, "%d,%f,%d,%e,%e", noParticles, approx1, diff, error, abs(error));
+			sprintf(answer1, "%d,%f,%f,%e,%e", noParticles, approx1, diff, error, abs(error));
 			FileWriter(answer1, file1);
 
 //			------------------------------------------------------------------------------------------       \\
@@ -236,14 +236,14 @@ int main(int argc, char* argv[])
 
 			if (!writeFile)
 			{
-				printf("%d,%f,%d,%e,%e  ", noParticles, approx2, diff, error, abs(error));
+				printf("%d,%f,%f,%e,%e  ", noParticles, approx2, diff, error, abs(error));
 				cout << "main execution time: " << diff << endl;
 			}
 
 			//save to file
 			//"Partition Size, Serial Trapezoidal Approximation, Time, Error"
 			char answer2[500] = "";
-			sprintf(answer2, "%d,%f,%d,%e,%e", noParticles, approx2, diff, error, abs(error));
+			sprintf(answer2, "%d,%f,%f,%e,%e", noParticles, approx2, diff, error, abs(error));
 			FileWriter(answer2, file2);
 		}
 	}
