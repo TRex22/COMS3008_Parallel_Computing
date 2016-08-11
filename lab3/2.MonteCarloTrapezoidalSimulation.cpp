@@ -47,13 +47,13 @@ void FileWriter(char* output, const char* file)
 
 void initFileOuts()
 {
-	char header1[75] = "Partition Size, Parallel Sim Approximation, Time, Error, Abs Error";
+	char header1[75] = "Particle Size, Parallel Sim Approximation, Time, Error, Abs Error";
 	FileWriter(header1, file1);
 
 	char header2[75] = "Thread Count, Parallel Sim Approximation, Time, Error, Abs Error";
 	FileWriter(header2, file2);
 
-	char header3[75] = "Partition Size, Serial Sim Approximation, Time, Error, Abs Error";
+	char header3[75] = "Particle Size, Serial Sim Approximation, Time, Error, Abs Error";
 	FileWriter(header3, file3);
 }
 

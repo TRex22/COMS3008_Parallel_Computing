@@ -4,6 +4,8 @@ Data Miner, do some basic stats on data collected
 Use: g++ -fopenmp DataProcessor.cpp inputfile outputfile blocksize colno colName <colNo is computer ranked ie 0 first>
 */
 
+//TODO: JMC get col name from top row
+
 #include "stdio.h"
 #include "omp.h"
 #include <iostream>
