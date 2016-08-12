@@ -147,7 +147,7 @@ double parallelSimulateFunction(int noThreads, int particleCount, double c, doub
 		//total++;
 	}
 
-	double result = simArea(c,d) * (double)((double)belowGraph / (double)total);
+	double result =  (double)((double)belowGraph / (double)total);
 	return result;
 }
 
