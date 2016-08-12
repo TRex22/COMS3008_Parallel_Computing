@@ -119,7 +119,7 @@ double simulateFunction(int particleCount, double c, double d)
 		total++;
 	}
 
-	/*printf("in: %i total: %i\n\n", inGraph, total);*/
+	//printf("in: %i total: %i\n\n", belowGraph, total);
 	
 	double result = simArea(c,d) * (double)((double)belowGraph / (double)total);
 	//printf("result: %f\n\n", result);
