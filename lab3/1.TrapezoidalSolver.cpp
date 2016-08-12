@@ -25,7 +25,7 @@ char newline[1] = "";
 const double a = 0.00;
 const double b = 20.00;
 
-const double analytical_integration_answer = pow(-exp(1), (-20)) * (20) - pow(exp(1), (-20)) + 1; //found in part 2 of lab 3 documentation
+const double analytical_integration_answer = 1 - (exp(-20)*20) - exp(-20); //found in part 2 of lab 3 documentation
 
 //file outputs
 const char* file1 = "results/Example1_parallel_partitions.csv";
@@ -59,7 +59,7 @@ void initFileOuts()
 
 double calcFunction(double x)
 {
-	return x * pow(exp(1), (-x));
+	return x * exp(-x);
 }
 
 double calcTrapezoidalApprox(int m)
@@ -72,11 +72,10 @@ double calcTrapezoidalApprox(int m)
 	double x0 = a;
 	double x1 = a + h;
 
-	for (int i = 0; i < m; i++)
+	for (int i = 0; i < m - 1; i++)
 	{
-		approx += calcFunction(x0) + calcFunction(x1);
-		x0 = x1;
-		x1 = x1 + h;
+		approx += calcFunction(a + (i*h)) + calcFunction(a + ((i+1) * h));	
+		/*cout << "calcFunction(x1)" << calcFunction(x1) << endl;*/
 	}
 
 	double result = (h / 2) * approx;
@@ -92,15 +91,11 @@ double calcParallelTrapezoidalApprox(int noThreads, int m)
 	h = h / m;
 
 	double approx = 0.0;
-	double x0 = a;
-	double x1 = a + h;
 
-	#pragma omp parallel for
-	for (int i = 0; i < m; i++)
+	#pragma omp parallel for reduction(+:approx)
+	for (int i = 0; i < m - 1; i++)
 	{
-		approx += calcFunction(x0) + calcFunction(x1);
-		x0 = x1;
-		x1 = x1 + h;
+		approx += calcFunction(a + (i*h)) + calcFunction(a + ((i+1) * h));		
 	}
 
 	double result = (h / 2) * approx;
@@ -157,14 +152,14 @@ int main(int argc, char* argv[])
 
 			if (!writeFile)
 			{
-				printf("%d,%f,%f,%e,%e  ", noPartitions, trapezoidal_approximation, diff, error, abs(error));
+				printf("%d,%.9lf,%.9lf,%e,%e  ", noPartitions, trapezoidal_approximation, diff, error, abs(error));
 				cout << "main execution time: " << diff << endl;
 			}
 
 			//save to file
 			//"Partition Size, Serial Trapezoidal Approximation, Time, Error"
 			char answer[500] = "";
-			sprintf(answer, "%d,%f,%f,%e,%e", noPartitions, trapezoidal_approximation, diff, error, abs(error));
+			sprintf(answer, "%d,%.9lf,%.9lf,%e,%e", noPartitions, trapezoidal_approximation, diff, error, abs(error));
 			FileWriter(answer, file3);
 		}
 	}
@@ -189,21 +184,26 @@ int main(int argc, char* argv[])
 
 			if (!writeFile)
 			{
-				printf("%d,%f,%f,%e,%e  ", noPartitions, trapezoidal_approximation, diff, error, abs(error));
+				printf("%d,%.9lf,%.9lf,%e,%e  ", noPartitions, trapezoidal_approximation, diff, error, abs(error));
 				cout << "main execution time: " << diff << endl;
 			}
 
 			//save to file
 			//"Partition Size, Serial Trapezoidal Approximation, Time, Error"
 			char answer[500] = "";
-			sprintf(answer, "%d,%f,%f,%e,%e", noPartitions, trapezoidal_approximation, diff, error, abs(error));
+			sprintf(answer, "%d,%.9lf,%.9lf,%e,%e", noPartitions, trapezoidal_approximation, diff, error, abs(error));
 			FileWriter(answer, file1);
 
 //			------------------------------------------------------------------------------------------       \\
 			
 			//cout << "parallel threads: " << endl;
-			noThreads = noThreads + (i * incrementSize);
-			if (noThreads < maxThreads + 1)
+			noThreads = (i * incrementSize);
+			if (noThreads == 0)
+			{
+				noThreads = 2;
+			}
+
+			if (noThreads <= maxThreads)
 			{
 				//thread increment, lock no partitions
 				noPartitions = 1000000;
@@ -217,14 +217,14 @@ int main(int argc, char* argv[])
 
 				if (!writeFile)
 				{
-					printf("%d,%f,%f,%e,%e  ", noThreads, trapezoidal_approximation2, diff, error, abs(error));
+					printf("%d,%.9lf,%.9lf,%e,%e  ", noThreads, trapezoidal_approximation2, diff, error, abs(error));
 					cout << "main execution time: " << diff << endl;
 				}
 
 				//save to file
 				//"Partition Size, Serial Trapezoidal Approximation, Time, Error"
 				char answer2[500] = "";
-				sprintf(answer2, "%d,%f,%f,%e,%e", noThreads, trapezoidal_approximation2, diff, error, abs(error));
+				sprintf(answer2, "%d,%.9lf,%.9lf,%e,%e", noThreads, trapezoidal_approximation2, diff, error, abs(error));
 				FileWriter(answer2, file2);
 			}
 		}
@@ -234,7 +234,7 @@ int main(int argc, char* argv[])
 	double diff_main = end_main - start_main;
 
 	char lineout[255] = "";
-	sprintf (lineout, "Example 1 Main Execution Time: %f", diff_main);
+	sprintf (lineout, "Example 1 Main Execution Time: %.9lf", diff_main);
 	cout << "main execution time: " << diff_main << endl;
 	FileWriter(lineout, execution_times_file);
 }

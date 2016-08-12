@@ -25,7 +25,7 @@ char newline[1] = "";
 const double a = 0.00;
 const double b = 20.00;
 
-const double analytical_integration_answer = pow(-exp(1), (-20)) * (20) - pow(exp(1), (-20)) + 1; //found in part 2 of lab 3 documentation
+const double analytical_integration_answer = 1 - (exp(-20)*20) - exp(-20); //found in part 2 of lab 3 documentation
 
 //file outputs
 const char* file1 = "results/Example2_parallel_particles.csv";
@@ -59,7 +59,20 @@ void initFileOuts()
 
 double calcFunction(double x)
 {
-	return x * pow(exp(1), (-x));
+	return x * exp(-x);
+}
+
+double calcArea(double length, double breadth)
+{
+	return length * breadth;
+}
+
+double simArea(double c, double d)
+{
+	double length = d-c;
+	double breadth = b-a;
+	//cout << "Area: " << calcArea(length, breadth) << endl;
+	return calcArea(length, breadth);
 }
 
 bool simPoint(double c, double d)
@@ -71,7 +84,6 @@ bool simPoint(double c, double d)
 	double y = (double)rand_r(&seed) * (d - c) / ((double)RAND_MAX - c);
 
 	//cout << "x:" << x << " y:" << y << endl;
-	//in or out
 
 	double functionValue = calcFunction(x);
 
@@ -87,21 +99,29 @@ bool simPoint(double c, double d)
 
 double simulateFunction(int particleCount, double c, double d)
 {
-	double total = 0;
-	double inGraph = 0;
+	int total = 0;
+	int belowGraph = 0;
+/*	int aboveGraph = 0;*/
 	
 	for (int i = 0; i < particleCount; i++)
 	{
 		bool test = simPoint(c, d);
 		if (test)
 		{
-			inGraph  = inGraph + 1;
+			belowGraph++;
 		}
-		total = i + 1;
+/*		else
+		{
+			aboveGraph ++;
+		}*/
+		total++;
 	}
 
-	//printf("in: %i total: %i", inGraph, total);
-	double result = inGraph / total;
+	/*printf("in: %i total: %i\n\n", inGraph, total);*/
+	
+	double result = (double)((double)belowGraph / (double)total);
+	//printf("result: %f\n\n", result);
+
 	return result;
 }
 
@@ -109,22 +129,22 @@ double parallelSimulateFunction(int noThreads, int particleCount, double c, doub
 {
 	omp_set_num_threads(noThreads);
 
-	double total = 0;
-	double inGraph = 0;
+	int total = particleCount; //0;
+	int belowGraph = 0;
+	bool test = false;
 	
-	#pragma omp parallel for
+	#pragma omp parallel for private(test) shared(c, d) reduction(+:belowGraph)
 	for (int i = 0; i < particleCount; i++)
 	{
-		bool test = simPoint(c, d);
+		test = simPoint(c, d);
 		if (test)
 		{
-			inGraph  = inGraph + 1;
+			belowGraph++;
 		}
-		total = i + 1;
+		//total++;
 	}
 
-	//printf("in: %i total: %i", inGraph, total);
-	double result = inGraph / total;
+	double result =  (double)((double)belowGraph / (double)total);
 	return result;
 }
 
@@ -183,14 +203,14 @@ int main(int argc, char* argv[])
 
 			if (!writeFile)
 			{
-				printf("%d,%f,%f,%e,%e  ", noParticles, approx, diff, error, abs(error));
+				printf("%d,%.9lf,%.9lf,%e,%e", noParticles, approx, diff, error, abs(error));
 				cout << "main execution time: " << diff << endl;
 			}
 
 			//save to file
 			//"Partition Size, Serial Trapezoidal Approximation, Time, Error"
 			char answer[500] = "";
-			sprintf(answer, "%d,%f,%f,%e,%e", noParticles, approx, diff, error, abs(error));
+			sprintf(answer, "%d,%.9lf,%.9lf,%e,%e", noParticles, approx, diff, error, abs(error));
 			FileWriter(answer, file3);
 		}
 	}
@@ -215,22 +235,23 @@ int main(int argc, char* argv[])
 
 			if (!writeFile)
 			{
-				printf("%d,%f,%f,%e,%e  ", noParticles, approx1, diff, error, abs(error));
+				printf("%d,%.9lf,%.9lf,%e,%e", noParticles, approx1, diff, error, abs(error));
 				cout << "main execution time: " << diff << endl;
 			}
 
 			//save to file
 			//"Partition Size, Serial Trapezoidal Approximation, Time, Error"
 			char answer1[500] = "";
-			sprintf(answer1, "%d,%f,%f,%e,%e", noParticles, approx1, diff, error, abs(error));
+			sprintf(answer1, "%d,%.9lf,%.9lf,%e,%e", noParticles, approx1, diff, error, abs(error));
 			FileWriter(answer1, file1);
 
 //			------------------------------------------------------------------------------------------       \\
 
 			//iterate through threads lock particles to 1000000
 			//cout << "Parallel Threads: " << endl;
-			noThreads = noThreads + (i * incrementSize);
-			if (noThreads < maxThreads + 1)
+			noThreads = (i * incrementSize);
+		
+			if (noThreads <= maxThreads)
 			{
 				noParticles = 1000000;
 				
@@ -243,14 +264,14 @@ int main(int argc, char* argv[])
 
 				if (!writeFile)
 				{
-					printf("%d,%f,%f,%e,%e  ", noParticles, approx2, diff, error, abs(error));
+					printf("%d,%.9lf,%.9lf,%e,%e", noThreads, approx2, diff, error, abs(error));
 					cout << "main execution time: " << diff << endl;
 				}
 
 				//save to file
 				//"Partition Size, Serial Trapezoidal Approximation, Time, Error"
 				char answer2[500] = "";
-				sprintf(answer2, "%d,%f,%f,%e,%e", noParticles, approx2, diff, error, abs(error));
+				sprintf(answer2, "%d,%.9lf,%.9lf,%e,%e", noThreads, approx2, diff, error, abs(error));
 				FileWriter(answer2, file2);
 			}
 		}
@@ -260,7 +281,7 @@ int main(int argc, char* argv[])
 	double diff_main = end_main - start_main;
 
 	char lineout[255] = "";
-	sprintf (lineout, "Example 1 Main Execution Time: %f", diff_main);
+	sprintf (lineout, "Example 1 Main Execution Time: %.9lf", diff_main);
 	cout << "main execution time: " << diff_main << endl;
 	FileWriter(lineout, execution_times_file);
 }

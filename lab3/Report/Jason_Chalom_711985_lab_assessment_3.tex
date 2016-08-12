@@ -45,7 +45,7 @@
 
 \HRule \\[0.4cm]
 { \huge \bfseries COMS3008: Parallel Computing Lab Assignment 3}\\[0.4cm] % Title of your document \\
-  \large 25 July 2016
+  \large 12 August 2016
 \HRule \\[1.5cm]
  
 %----------------------------------------------------------------------------------------
@@ -71,7 +71,7 @@ All drawn diagrams were drawn using \url{http://draw.io/}, and all results from 
 
 \noindent The system used for empirical analysis, had an i3 Ivy-bridge CPU, with four processing units and 8GB of RAM.\\
 
-\noindent \large \chapter{\textbf{Glossary Of Terms:}}\\\\
+\subsection{Glossary Of Terms:}
 \noindent \textbf{\textit{Trapezoid}} - is defined as the British definition (Trapezium) as a quadrilateral with no sides parallel \\
 \noindent \textbf{\textit{IBT}} - is an acronym for integration by parts.\\
 \noindent \textbf{\textit{STR}} - is an acronym for Simpson's Trapezoidal Rule.\\
@@ -104,30 +104,96 @@ where $f = x$, $dg = e^{-x} dx$, $df = dx$ and $g = -e^{-x}$.\\
 \begin{aligned}
     \therefore{} \int_{0}^{20} xe^{-x} dx &= \left[-e^{-x} - e^{-x} + c\right]_{0}^{20} \\
     & = -e^{-20}(20) - e^{-20} + e^{0}(0) + e^{0}\\
-    & = 1 + \epsilon{}\\
+    & = 1 - e^{-20}(20) - e^{-20}\\
+    & = 1 - \epsilon{}\\
     & \simeq{} 1,00
 \end{aligned}
 \end{equation}
 
-Note: $\epsilon{} \simeq{} -4,329422607 x 10^{-8}$
+Note: $\epsilon{} \simeq{} 4,329422607 x 10^{-8}$.
 \\
-
+\break
 \section{Parallel Trapezoidal Integration}
-\noindent \chapter{The Trapezium:}\\
-\noindent Let $a$ be the top section of a trapezoid (Fig 1), $b$ be the base of a trapezoid (Fig 1) and $h$ be the greatest height between $a$ and $b$.
+\subsection{The Trapezium:}
+\noindent Let $a$ be the shortest side of a trapezoid (Fig 1), $b$ be the longest side and $h$ be the base of the trapezoid (Fig 1).
 
 \begin{figure}[ht]
 \centering
-     \includegraphics[width=1.00\textwidth]{trapezium}\\
+     \includegraphics[width=0.40\textwidth]{trapezium}\\
      Fig 1. An example trapezium
 \end{figure}
 
-\noindent The area of a trapezoid is defined as: $A = \frac{a+b}{2}h$\\
+\subsection{The area of a trapezoid is defined as:} 
+
+\begin{equation}
+\begin{aligned}
+    A &= (a . h) + (\frac{1}{2}(b - a).h)\\
+    & = h.(a + \frac{1}{2}(b - a))\\
+    & = h.(a + \frac{1}{2}b - \frac{1}{2}a)\\
+    & = h.(\frac{1}{2}a + \frac{1}{2}b)\\
+    & = \frac{a+b}{2}h
+\end{aligned}
+\end{equation}
 \\
+\subsection{Derivation of the rule:}\\
+\noindent Let $f(x)$ be a function where $x \in [a,b]$, such that\\
+ $a = x_0 < x_1 < ... < x_n = b \in \mathbb{Z}$
+ 
+\begin{figure}[ht]
+\centering
+     \includegraphics[width=0.80\textwidth]{approx_graph}\\
+     Fig 2. Approximation of a polynomial
+\end{figure}
+\\
+\noindent Note: \\
+\begin{equation}
+\begin{aligned}
+    h &= x_{n+1} - x_n\\
+    &= \Delta{}x
+\end{aligned}
+\end{equation}
 
-\break
+\noindent The area of the $n^{th}$ trapezoid is given by:\\
 
-\noindent \chapter{Derivation of the Trapezoidal Rule (STR):}\\
+\begin{equation}
+\begin{aligned}
+    A_n = \Delta{x}\Bigg[\frac{f(x_i) + f(x_{i+1})}{2}\Bigg]
+\end{aligned}
+\end{equation}\\
+
+\noindent Since $\Delta{x}$ is fixed for each partition as it is assumed that there are a uniform number of trapezoids under $f(x)$,\\
+
+\begin{equation}
+\begin{aligned}
+    \Delta{x} &= \frac{b-a}{n}\\
+    \therefore{A_n} &= \Bigg[\frac{f(x_i) + f(x_{i+1})}{2}\Bigg]
+\end{aligned}
+\end{equation}\\
+
+\noindent Let $m = n-1$, This implies that\\
+
+\begin{equation}
+\begin{aligned}
+    \int_a^b f(x) dx &\simeq \sum_{i=0}^{m}A_i\\
+    &\simeq \sum_{i=0}^{m} \Delta{x} \Bigg[\frac{f(x_i) + f(x_{i+1})}{2}\Bigg]\\
+    &\simeq \Delta{x} \sum_{i=0}^{m} \Bigg[\frac{f(x_i) + f(x_{i+1})}{2}\Bigg]\\
+    &\simeq \frac{b-a}{2n} \sum_{i=0}^{m} \Bigg[f(x_i) + f(x_{i+1})\Bigg]\\
+\end{aligned}
+\end{equation}
+
+\subsection{Method of Implementation:}
+
+
+\subsection{Implementation Results:}\\
+
+\subsection{Implementation Analysis:}\\
+
+\section{Parallel Monte Carlo Integration}
+\subsection{:} 
+
+
+\section{Appendix A: Alternative Derivation of Trapezoidal Rule}
+\subsection{Derivation of the Trapezoidal Rule (STR):}\\
 \noindent Let $P_n$ be a polynomial function of n terms.\\
 
 \begin{equation}
@@ -146,16 +212,10 @@ Note: $\epsilon{} \simeq{} -4,329422607 x 10^{-8}$
 \end{equation} 
 \\
 
-\noindent \chapter{Derivation of the Composite Trapezoidal Rule (CTR):}\\
+\subsection{Derivation of the Composite Trapezoidal Rule (CTR):}\\
 \noindent For sub-intervals: $a = x_0 < x_1 < ... < x_n = b$
 \\
 
-\begin{figure}[ht]
-\centering
-     \includegraphics[width=0.80\textwidth]{approx_graph}\\
-     Fig 2. Approximation of a polynomial
-\end{figure}
-\\
 \begin{equation}
 \begin{aligned}
     n &= \frac{b-a}{m}\\
@@ -179,15 +239,6 @@ Note: $\Delta{x}$ is fixed.
     Error_C_T_R = \frac{(b-a)^3}{12m^2}$ $f^{0}(\phi)$, $\phi \in [a,b]
 \end{aligned}
 \end{equation}
-\\\\
-
-
-\noindent \chapter{Implementation Results:}\\
-
-\noindent \chapter{Implementation Analysis:}\\
-
-\section{Parallel Monte Carlo Integration}
-\noindent \chapter{:} 
 
 \end{page}
 
