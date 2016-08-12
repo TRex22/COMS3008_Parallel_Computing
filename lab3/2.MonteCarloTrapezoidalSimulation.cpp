@@ -99,6 +99,8 @@ bool simPoint(double c, double d)
 
 double simulateFunction(int particleCount, double c, double d)
 {
+	d = d + 1;
+
 	int total = 0;
 	int belowGraph = 0;
 /*	int aboveGraph = 0;*/
@@ -119,7 +121,7 @@ double simulateFunction(int particleCount, double c, double d)
 
 	/*printf("in: %i total: %i\n\n", inGraph, total);*/
 	
-	double result = (double)((double)belowGraph / (double)total);
+	double result = simArea(c,d) * (double)((double)belowGraph / (double)total);
 	//printf("result: %f\n\n", result);
 
 	return result;
@@ -127,6 +129,7 @@ double simulateFunction(int particleCount, double c, double d)
 
 double parallelSimulateFunction(int noThreads, int particleCount, double c, double d)
 {
+	d = d + 1.0;
 	omp_set_num_threads(noThreads);
 
 	int total = particleCount; //0;

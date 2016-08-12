@@ -182,16 +182,38 @@ Note: $\epsilon{} \simeq{} 4,329422607 x 10^{-8}$.
 \end{equation}
 
 \subsection{Method of Implementation:}
+\noindent The derivation of the Trapezoidal rule (from equation 8) was used and both serial and parallel implementations were programmed. The parallel decomposition was a standard openMP parallel for directive where a reduction on the approximation was specified.\\
 
+\noindent Three result sets were captured. One was the serial implementation where only the main thread was used. This algorithm starts at 1 partition and increments by 1 for 26000 iterations. These are the result data points generated.\\
+
+\noindent In the two parallel result sets, one looked at a fixed number of threads (4 threads) and an incrementing number of partitions and the other looked at a fixed number of partitions (1000000) and an incrementing number of threads from 1 to 26000.\\
+
+\noindent All results included the time each specific trapezoidal approximation took to complete, either the number of threads or the number of partitions, the error, and the absolute error.
 
 \subsection{Implementation Results:}\\
+\begin{figure}[ht]
+\centering
+     \includegraphics[width=0.40\textwidth]{}\\
+     Fig 1. An example trapezium
+\end{figure}
 
 \subsection{Implementation Analysis:}\\
 
 \section{Parallel Monte Carlo Integration}
-\subsection{:} 
+\subsection{Method of Implementation:}
+\noindent 
+
+\subsection{Implementation Results:}\\
+\begin{figure}[ht]
+\centering
+     \includegraphics[width=0.40\textwidth]{}\\
+     Fig 1. An example trapezium
+\end{figure}
+
+\subsection{Implementation Analysis:}\\ 
 
 
+\break
 \section{Appendix A: Alternative Derivation of Trapezoidal Rule}
 \subsection{Derivation of the Trapezoidal Rule (STR):}\\
 \noindent Let $P_n$ be a polynomial function of n terms.\\
