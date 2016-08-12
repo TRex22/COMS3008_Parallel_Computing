@@ -69,7 +69,7 @@
 \section{General Assumptions and Methodology}
 All drawn diagrams were drawn using \url{http://draw.io/}, and all results from empirical analysis, were statistically analysed by the data processing program used in lab 1. Those averaged results were then plotted using Microsoft Excel.\\
 
-\noindent The system used for empirical analysis, had an i3 Ivy-bridge CPU, with four processing units and 8GB of RAM.\\
+\noindent The system used for empirical analysis, had an i3 Ivy-bridge CPU, with four processing units and 8GB of RAM. This system can open up a maximum of 26000 threads of computation for a given program excluding any background and operating system tasks.\\
 
 \subsection{Glossary Of Terms:}
 \noindent \textbf{\textit{Trapezoid}} - is defined as the British definition (Trapezium) as a quadrilateral with no sides parallel \\
@@ -182,7 +182,9 @@ Note: $\epsilon{} \simeq{} 4,329422607 x 10^{-8}$.
 \end{equation}
 
 \subsection{Method of Implementation:}
-\noindent The derivation of the Trapezoidal rule (from equation 8) was used and both serial and parallel implementations were programmed. The parallel decomposition was a standard openMP parallel for directive where a reduction on the approximation was specified.\\
+\noindent The derivation of the Trapezoidal rule (from equation 8) was used and both serial and parallel implementations were programmed. The serial function's results are the baseline for the analysis. The parallel decomposition was a standard openMP parallel for directive where a reduction on the approximation was specified.\\
+
+\noindent The error calculated in these experiments is the result of subtracting the analytical result derived in section 2 by the final approximation at each iteration. If the error is negative then the specific step approximated the integral under the analytical result otherwise it was over the result.\\
 
 \noindent Three result sets were captured. One was the serial implementation where only the main thread was used. This algorithm starts at 1 partition and increments by 1 for 26000 iterations. These are the result data points generated.\\
 
@@ -201,7 +203,16 @@ Note: $\epsilon{} \simeq{} 4,329422607 x 10^{-8}$.
 
 \section{Parallel Monte Carlo Integration}
 \subsection{Method of Implementation:}
-\noindent 
+\noindent A boundary was setup which went from $a = 0$ to $b = 20$ on the $X$ axis and from $c$ to $d$ on the $Y$ axis. $c,d$ are the results of $c = f(a) + 1$ and $d = f(b) + 1$. This produces a rectangle where part of its area is the integral of the function defined in section 2. Random $x$ and $y$ values were generated for every particle in the experiment. They were generated in the range $[a,b]$ and $[c,d]$ respectively. The experiment was conducted using a purely serial function and also a parallel function. The serial function's results are the baseline for the analysis. Each increment taken was repeated 25 times and after the experiment was run averages and other statistics were taken and those results were used to plot the graphs in the results subsection.\\
+
+\noindent The error calculated in these experiments is the result of subtracting the analytical result derived in section 2 by the final approximation at each iteration. If the error is negative then the specific step approximated the integral under the analytical result otherwise it was over the result.\\
+
+\noindent The serial implementation iterated through the number of particles per experiment (from 1 to 26000) and returned the approximation, an error, the time taken by each calculation and an absolute error.\\
+
+\noindet Both Parallel implementations made used of the same decomposition using openMP's parallel for directive. The private variable for each execution unit was the result of the randomly generated point as the points were never stored in memory for later use. There were shared variables where were $c$ and $d$. A reduction operation was also done on the only variable used outside of the parallel code block, which was variable counting the number of points which occurred below the graph (in side the area of the graph), as the total number of points was known before-hand.\\
+
+\noindent The one parallel experiment locked the number of threads (4 threads) and incremented the number of particles which to generate from 1 particle to 26000 particles incrementing by 1 each time. The other one locked the number of particles at 1000000 and incremented the number of threads from 1 thread to 26000 threads.
+
 
 \subsection{Implementation Results:}\\
 \begin{figure}[ht]
