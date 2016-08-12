@@ -2,7 +2,7 @@
 Jason Chalom 711985 2016
 Use: g++ -fopenmp 2.cpp -o example2.out
 
-Usage: ./example2.out initThread particleCount blockSize noIncrements incrementSize writeFile?
+Usage: ./example2.out initThread maxThreads particleCount blockSize noIncrements incrementSize writeFile?
 
 ./compile.sh to compile everything
 ./kickoff to run all, save to file and then determine averages using dataProcessor.out
@@ -140,20 +140,21 @@ int main(int argc, char* argv[])
 	srand((unsigned)time(NULL));
 
 	//check if args
-	if (argc != 7)
+	if (argc != 8)
 	{
-		std::cout << "Error: Must have six arguments.";
-		throw std::length_error("Must have six arguments.");
+		std::cout << "Error: Must have seven arguments.";
+		throw std::length_error("Must have seven arguments.");
 	}
 
-	//initThread particleCount blockSize noIncrements incrementSize writeFile?
+	//initThread maxThreads particleCount blockSize noIncrements incrementSize writeFile?
 	int noThreads = atoi(argv[1]);
-	int initialParticleCount = atoi(argv[2]);
-	int blockSize = atoi(argv[3]);
-	int noIncrements = atoi(argv[4]);
-	int incrementSize = atoi(argv[5]);
+	int maxThreads = atoi(argv[2]);
+	int initialParticleCount = atoi(argv[3]);
+	int blockSize = atoi(argv[4]);
+	int noIncrements = atoi(argv[5]);
+	int incrementSize = atoi(argv[6]);
 
-	writeFile = atoi(argv[6]);
+	writeFile = atoi(argv[7]);
 
 	omp_set_num_threads(noThreads);
 
@@ -166,6 +167,7 @@ int main(int argc, char* argv[])
 	double start_main = omp_get_wtime();
 
 	//serial
+	cout << "serial: " << endl;
 	for (int i = 0; i < noIncrements; i++)
 	{
 		for (int j = 0; j < blockSize; j++)
@@ -194,10 +196,12 @@ int main(int argc, char* argv[])
 	}
 
 	//parallel
+	cout << "parallel: " << endl;
 	for (int i = 0; i < noIncrements; i++)
 	{
 		for (int j = 0; j < blockSize; j++)
 		{
+			//cout << "Parallel Particles: " << endl;
 			//iterate through particles lock threads to 4
 			int noParticles = initialParticleCount + (i * incrementSize);
 			noThreads = 4;
@@ -224,27 +228,31 @@ int main(int argc, char* argv[])
 //			------------------------------------------------------------------------------------------       \\
 
 			//iterate through threads lock particles to 1000000
-			noParticles = 1000000;
+			//cout << "Parallel Threads: " << endl;
 			noThreads = noThreads + (i * incrementSize);
-
-			start = omp_get_wtime();
-			double approx2 = parallelSimulateFunction(noThreads, initialParticleCount, c, d);
-			end = omp_get_wtime();
-			diff = end - start;
-			
-			error = calcError(approx2);
-
-			if (!writeFile)
+			if (noThreads < maxThreads + 1)
 			{
-				printf("%d,%f,%f,%e,%e  ", noParticles, approx2, diff, error, abs(error));
-				cout << "main execution time: " << diff << endl;
-			}
+				noParticles = 1000000;
+				
+				start = omp_get_wtime();
+				double approx2 = parallelSimulateFunction(noThreads, initialParticleCount, c, d);
+				end = omp_get_wtime();
+				diff = end - start;
+				
+				error = calcError(approx2);
 
-			//save to file
-			//"Partition Size, Serial Trapezoidal Approximation, Time, Error"
-			char answer2[500] = "";
-			sprintf(answer2, "%d,%f,%f,%e,%e", noParticles, approx2, diff, error, abs(error));
-			FileWriter(answer2, file2);
+				if (!writeFile)
+				{
+					printf("%d,%f,%f,%e,%e  ", noParticles, approx2, diff, error, abs(error));
+					cout << "main execution time: " << diff << endl;
+				}
+
+				//save to file
+				//"Partition Size, Serial Trapezoidal Approximation, Time, Error"
+				char answer2[500] = "";
+				sprintf(answer2, "%d,%f,%f,%e,%e", noParticles, approx2, diff, error, abs(error));
+				FileWriter(answer2, file2);
+			}
 		}
 	}
 

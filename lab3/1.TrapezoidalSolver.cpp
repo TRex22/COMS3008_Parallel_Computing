@@ -2,7 +2,7 @@
 Jason Chalom 711985 2016
 Use: g++ -fopenmp 1.TrapezoidalSolver.cpp -o example1.out
 
-Usage: ./example1.out initThreads initialPartitions blockSize noIncrements incrementSize writeFile?
+Usage: ./example1.out initThreads maxThreads initialPartitions blockSize noIncrements incrementSize writeFile?
 
 ./compile.sh to compile everything
 ./kickoff to run all, save to file and then determine averages using dataProcessor.out
@@ -116,21 +116,22 @@ double calcError(double approx)
 
 int main(int argc, char* argv[])
 {
-	//noThreads initialPartitions blockSize noIncrements incrementSize
+	//noThreads maxThreads initialPartitions blockSize noIncrements incrementSize
 	//check if args
-	if (argc != 7)
+	if (argc != 8)
 	{
-		std::cout << "Error: Must have six arguments.";
-		throw std::length_error("Must have six arguments.");
+		std::cout << "Error: Must have seven arguments.";
+		throw std::length_error("Must have seven arguments.");
 	}
 
 	int noThreads = atoi(argv[1]);
-	int initialPartitions = atoi(argv[2]);
-	int blockSize = atoi(argv[3]);
-	int noIncrements = atoi(argv[4]);
-	int incrementSize = atoi(argv[5]);
+	int maxThreads = atoi(argv[2]);
+	int initialPartitions = atoi(argv[3]);
+	int blockSize = atoi(argv[4]);
+	int noIncrements = atoi(argv[5]);
+	int incrementSize = atoi(argv[6]);
 
-	writeFile = atoi(argv[6]);
+	writeFile = atoi(argv[7]);
 
 	omp_set_num_threads(noThreads);
 
@@ -140,6 +141,7 @@ int main(int argc, char* argv[])
 	double start_main = omp_get_wtime();
 
 	//serial
+	cout << "serial: " << endl;
 	for (int i = 0; i < noIncrements; i++)
 	{
 		for (int j = 0; j < blockSize; j++)
@@ -168,10 +170,12 @@ int main(int argc, char* argv[])
 	}
 
 	//parallel partitions
+	cout << "parallel: " << endl;
 	for (int i = 0; i < noIncrements; i++)
 	{
 		for (int j = 0; j < blockSize; j++)
 		{
+			//cout << "parallel partitions: " << endl;
 			//partition increment, lock no threads
 			int noPartitions = initialPartitions + (i * incrementSize);
 			noThreads = 4;
@@ -196,29 +200,33 @@ int main(int argc, char* argv[])
 			FileWriter(answer, file1);
 
 //			------------------------------------------------------------------------------------------       \\
-
-			//thread increment, lock no partitions
-			noPartitions = 10000;
+			
+			//cout << "parallel threads: " << endl;
 			noThreads = noThreads + (i * incrementSize);
-
-			start = omp_get_wtime();
-			double trapezoidal_approximation2 = calcParallelTrapezoidalApprox(noThreads, noPartitions);
-			end = omp_get_wtime();
-			diff = end - start;
-
-			error = calcError(trapezoidal_approximation2);
-
-			if (!writeFile)
+			if (noThreads < maxThreads + 1)
 			{
-				printf("%d,%f,%f,%e,%e  ", noThreads, trapezoidal_approximation2, diff, error, abs(error));
-				cout << "main execution time: " << diff << endl;
-			}
+				//thread increment, lock no partitions
+				noPartitions = 1000000;
+				
+				start = omp_get_wtime();
+				double trapezoidal_approximation2 = calcParallelTrapezoidalApprox(noThreads, noPartitions);
+				end = omp_get_wtime();
+				diff = end - start;
 
-			//save to file
-			//"Partition Size, Serial Trapezoidal Approximation, Time, Error"
-			char answer2[500] = "";
-			sprintf(answer2, "%d,%f,%f,%e,%e", noThreads, trapezoidal_approximation2, diff, error, abs(error));
-			FileWriter(answer2, file2);
+				error = calcError(trapezoidal_approximation2);
+
+				if (!writeFile)
+				{
+					printf("%d,%f,%f,%e,%e  ", noThreads, trapezoidal_approximation2, diff, error, abs(error));
+					cout << "main execution time: " << diff << endl;
+				}
+
+				//save to file
+				//"Partition Size, Serial Trapezoidal Approximation, Time, Error"
+				char answer2[500] = "";
+				sprintf(answer2, "%d,%f,%f,%e,%e", noThreads, trapezoidal_approximation2, diff, error, abs(error));
+				FileWriter(answer2, file2);
+			}
 		}
 	}
 

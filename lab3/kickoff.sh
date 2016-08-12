@@ -1,9 +1,9 @@
 #!/bin/bash
 mkdir results
-#initThreads initialPartitions blockSize noIncrements incrementSize writeFile?
-./example1.out 1 10 1 100000 100 1
-#initThread particleCount blockSize noIncrements incrementSize writeFile?
-./example2.out 1 10 25 100000 100 1
+#initThreads maxThreads initialPartitions blockSize noIncrements incrementSize writeFile?
+./example1.out 1 26000 0 1 1001 1000 1
+#initThread maxThreads particleCount blockSize noIncrements incrementSize writeFile?
+./example2.out 1 26000 0 25 1001 1000 1
 
 #./dataProcessor.out
 mkdir results/mine
