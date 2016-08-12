@@ -186,9 +186,9 @@ Note: $\epsilon{} \simeq{} 4,329422607 x 10^{-8}$.
 
 \noindent The error calculated in these experiments is the result of subtracting the analytical result derived in section 2 by the final approximation at each iteration. If the error is negative then the specific step approximated the integral under the analytical result otherwise it was over the result.\\
 
-\noindent Three result sets were captured. One was the serial implementation where only the main thread was used. This algorithm starts at 1 partition and increments by 100 for 26000 iterations. These are the result data points generated.\\
+\noindent Three result sets were captured. One was the serial implementation where only the main thread was used. This algorithm starts at 1 partition and increments by 100 for 260 iterations. These are the result data points generated.\\
 
-\noindent In the two parallel result sets, one looked at a fixed number of threads (4 threads) and an incrementing number of partitions and the other looked at a fixed number of partitions (1000000) and an incrementing number of threads from 1 to 26000, at 100 intervals.\\
+\noindent In the two parallel result sets, one looked at a fixed number of threads (4 threads) and an incrementing number of partitions and the other looked at a fixed number of partitions (1000000) and an incrementing the number of threads from 1 to 26000 threads, at 100 increments 260 times.\\
 
 \noindent All results included the time each specific trapezoidal approximation took to complete, either the number of threads or the number of partitions, the error, and the absolute error.
 
@@ -222,6 +222,8 @@ Note: $\epsilon{} \simeq{} 4,329422607 x 10^{-8}$.
 \end{figure}
 
 \subsection{Implementation Analysis:}\\ 
+
+\section{Conclusion}
 
 
 \break

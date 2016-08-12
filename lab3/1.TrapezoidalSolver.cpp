@@ -152,14 +152,14 @@ int main(int argc, char* argv[])
 
 			if (!writeFile)
 			{
-				printf("%d,%.9lf,%.9lf,%e,%e  ", noPartitions, trapezoidal_approximation, diff, error, abs(error));
+				printf("%d,%.11lf,%.11lf,%e,%e  ", noPartitions, trapezoidal_approximation, diff, error, abs(error));
 				cout << "main execution time: " << diff << endl;
 			}
 
 			//save to file
 			//"Partition Size, Serial Trapezoidal Approximation, Time, Error"
 			char answer[500] = "";
-			sprintf(answer, "%d,%.9lf,%.9lf,%e,%e", noPartitions, trapezoidal_approximation, diff, error, abs(error));
+			sprintf(answer, "%d,%.11lf,%.11lf,%e,%e", noPartitions, trapezoidal_approximation, diff, error, abs(error));
 			FileWriter(answer, file3);
 		}
 	}
@@ -184,14 +184,14 @@ int main(int argc, char* argv[])
 
 			if (!writeFile)
 			{
-				printf("%d,%.9lf,%.9lf,%e,%e  ", noPartitions, trapezoidal_approximation, diff, error, abs(error));
+				printf("%d,%.11lf,%.11lf,%e,%e  ", noPartitions, trapezoidal_approximation, diff, error, abs(error));
 				cout << "main execution time: " << diff << endl;
 			}
 
 			//save to file
 			//"Partition Size, Serial Trapezoidal Approximation, Time, Error"
 			char answer[500] = "";
-			sprintf(answer, "%d,%.9lf,%.9lf,%e,%e", noPartitions, trapezoidal_approximation, diff, error, abs(error));
+			sprintf(answer, "%d,%.11lf,%.11lf,%e,%e", noPartitions, trapezoidal_approximation, diff, error, abs(error));
 			FileWriter(answer, file1);
 
 //			------------------------------------------------------------------------------------------       \\
@@ -217,14 +217,14 @@ int main(int argc, char* argv[])
 
 				if (!writeFile)
 				{
-					printf("%d,%.9lf,%.9lf,%e,%e  ", noThreads, trapezoidal_approximation2, diff, error, abs(error));
+					printf("%d,%.11lf,%.11lf,%e,%e  ", noThreads, trapezoidal_approximation2, diff, error, abs(error));
 					cout << "main execution time: " << diff << endl;
 				}
 
 				//save to file
 				//"Partition Size, Serial Trapezoidal Approximation, Time, Error"
 				char answer2[500] = "";
-				sprintf(answer2, "%d,%.9lf,%.9lf,%e,%e", noThreads, trapezoidal_approximation2, diff, error, abs(error));
+				sprintf(answer2, "%d,%.11lf,%.11lf,%e,%e", noThreads, trapezoidal_approximation2, diff, error, abs(error));
 				FileWriter(answer2, file2);
 			}
 		}
@@ -234,7 +234,7 @@ int main(int argc, char* argv[])
 	double diff_main = end_main - start_main;
 
 	char lineout[255] = "";
-	sprintf (lineout, "Example 1 Main Execution Time: %.9lf", diff_main);
+	sprintf (lineout, "Example 1 Main Execution Time: %.11lf", diff_main);
 	cout << "main execution time: " << diff_main << endl;
 	FileWriter(lineout, execution_times_file);
 }
