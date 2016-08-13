@@ -1,0 +1,2 @@
+Example 1 Main Execution Time: 133.80668954800
+Example 1 Main Execution Time: 113.43366231200
