@@ -3,7 +3,7 @@ mkdir results
 #initThreads maxThreads initialPartitions blockSize noIncrements incrementSize writeFile?
 ./example1.out 1 26000 1 1 261 100 1
 #initThread maxThreads particleCount blockSize noIncrements incrementSize writeFile?
-./example2.out 1 26000 26000 1 261 100 1
+./example2.out 1 26000 1 1 261 100 1
 
 #./dataProcessor.out
 #mkdir results/mine
