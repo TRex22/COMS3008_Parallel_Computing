@@ -253,10 +253,14 @@ int main(int argc, char* argv[])
 			//iterate through threads lock particles to 1000000
 			//cout << "Parallel Threads: " << endl;
 			noThreads = (i * incrementSize);
-		
+			if (noThreads == 0)
+			{
+				noThreads = 2;
+			}
+			
 			if (noThreads <= maxThreads)
 			{
-				noParticles = 1000000;
+				noParticles = 100000;
 				
 				start = omp_get_wtime();
 				double approx2 = parallelSimulateFunction(noThreads, initialParticleCount, c, d);
