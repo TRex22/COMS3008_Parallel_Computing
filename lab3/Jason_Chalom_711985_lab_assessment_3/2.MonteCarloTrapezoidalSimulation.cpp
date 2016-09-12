@@ -80,8 +80,8 @@ bool simPoint(double c, double d)
 	//make random x,y
 	unsigned int seed = time(NULL);//omp_get_thread_num(); //could use, not proper seed tho
 
-	double x = (double)rand_r(&seed) * (b - a) / ((double)RAND_MAX - a);
-	double y = (double)rand_r(&seed) * (d - c) / ((double)RAND_MAX - c);
+	double x = a + (double) (rand()) / ( (double) (RAND_MAX/(b-a)));
+	double y = c + (double) (rand()) / ( (double) (RAND_MAX/(d-c)));;
 
 	//cout << "x:" << x << " y:" << y << endl;
 
@@ -116,10 +116,10 @@ double simulateFunction(int particleCount, double c, double d)
 		{
 			aboveGraph ++;
 		}*/
-		total++;
+		total++;		
 	}
 
-	/*printf("in: %i total: %i\n\n", inGraph, total);*/
+	//printf("in: %i total: %i\n\n", belowGraph, total);
 	
 	double result = simArea(c,d) * (double)((double)belowGraph / (double)total);
 	//printf("result: %f\n\n", result);
@@ -130,6 +130,11 @@ double simulateFunction(int particleCount, double c, double d)
 double parallelSimulateFunction(int noThreads, int particleCount, double c, double d)
 {
 	d = d + 1.0;
+	if (noThreads == 0)
+	{
+		noThreads = 2;
+	}
+
 	omp_set_num_threads(noThreads);
 
 	int total = particleCount; //0;
@@ -142,7 +147,7 @@ double parallelSimulateFunction(int noThreads, int particleCount, double c, doub
 		test = simPoint(c, d);
 		if (test)
 		{
-			belowGraph++;
+			belowGraph = belowGraph + 1;
 		}
 		//total++;
 	}
@@ -253,10 +258,14 @@ int main(int argc, char* argv[])
 			//iterate through threads lock particles to 1000000
 			//cout << "Parallel Threads: " << endl;
 			noThreads = (i * incrementSize);
-		
+			if (noThreads == 0)
+			{
+				noThreads = 2;
+			}
+			
 			if (noThreads <= maxThreads)
 			{
-				noParticles = 1000000;
+				noParticles = 100000;
 				
 				start = omp_get_wtime();
 				double approx2 = parallelSimulateFunction(noThreads, initialParticleCount, c, d);
