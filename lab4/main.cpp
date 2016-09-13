@@ -1,9 +1,11 @@
-#include<iostream>
+#include <iostream>
 #include "omp.h"
-#include<cmath>
+#include <cmath>
 
 
 using namespace std;
+
+const int n = 1000000;
 
 double function(double x){
      return cos(x);
@@ -16,9 +18,33 @@ double dx(double x,double h){
      return((y2-y1)/(2*h));
 }
 
-int main(){
+void parallel() {
+     /*int n = 1000000;*/
+     double interval=0.1;
+     double* data = new double[n];
+     double* output = new double[n];
+     
+     for(int i = 0;i < n;i++){
+          data[i] = i*interval;
+     }
+     
+     double start = omp_get_wtime();
+     
+     #pragma omp parallel for
+     for(int i = 0;i < n;i++){
+          output[i] = dx(i,interval/2);
+     }
+     
+     double end = omp_get_wtime();
+     
+     for(int i = 0;i < n;i++){
+          //cout<<data[i]<<":"<<output[i]<<"\n";
+     }
+     cout<<end-start<<"\n";
+}
 
-     int n = 1000000;
+void serial() {
+     /*int n = 1000000;*/
      double interval=0.1;
      double* data = new double[n];
      double* output = new double[n];
@@ -37,7 +63,12 @@ int main(){
      double end = omp_get_wtime();
      
      for(int i = 0;i < n;i++){
-          cout<<data[i]<<":"<<output[i]<<"\n";
+          //cout<<data[i]<<":"<<output[i]<<"\n";
      }
      cout<<end-start<<"\n";
+}
+
+int main(){
+     serial();
+     parallel();
 }
