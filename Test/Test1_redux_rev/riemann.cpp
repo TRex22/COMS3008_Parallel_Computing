@@ -65,7 +65,7 @@ double calcParallelRiemannSum(int n)
 	double integral = 0.0;
 	double sum = 0.0;
 
-	#pragma omp parallel for
+	#pragma omp parallel for reduction(+:sum)
 	for (int i = 0; i < n; i++)
 	{
 		sum += functionx(a + (i*deltax));
